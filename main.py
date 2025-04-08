@@ -1,4 +1,4 @@
-from flask import Flask
+from flask import Flask, render_template
 
 app = Flask(__name__)
 
@@ -10,7 +10,7 @@ def home():
 
 @app.route('/kick_timatun')
 def index():
-    return "kick timatun5000!"
+    return render_template('kick_timatun.html')
 
 
 if __name__ == '__main__':

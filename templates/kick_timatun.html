@@ -1,0 +1,199 @@
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NEBALATRO SHOP</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap');
+
+        body {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            background-color: #0a0410;
+            overflow: hidden;
+            font-family: 'Press Start 2P', cursive;
+            color: #fff;
+        }
+
+        /* Шапка */
+        .header {
+            position: absolute;
+            top: 20px;
+            width: 100%;
+            text-align: center;
+            z-index: 10;
+        }
+
+        .shop-title {
+            font-size: 2rem;
+            color: #ffff00;
+            text-shadow:
+                0 0 10px #ffff00,
+                0 0 20px #ff9900;
+            letter-spacing: 3px;
+            margin-bottom: 10px;
+            animation: flicker 3s infinite;
+        }
+
+        /* Основной контент */
+        .container {
+            position: relative;
+            text-align: center;
+            z-index: 1;
+            margin-top: 30px;
+        }
+
+        h1 {
+            font-size: 3.5rem;
+            color: #ff00ff;
+            text-shadow:
+                0 0 10px #ff00ff,
+                0 0 20px #ff00ff,
+                0 0 30px #ff00ff,
+                0 0 40px #00ffff,
+                0 0 70px #00ffff;
+            animation: glitch 0.5s infinite alternate, flicker 2s infinite;
+            transform: skew(-5deg);
+            letter-spacing: 2px;
+            margin-bottom: 50px;
+        }
+
+        /* Футер (автор) */
+        .footer {
+            position: absolute;
+            bottom: 20px;
+            width: 100%;
+            text-align: center;
+            z-index: 10;
+        }
+
+        .author {
+            font-size: 0.8rem;
+            color: #00ffff;
+            text-shadow: 0 0 5px #00ffff;
+            opacity: 0.8;
+            animation: pulse 2s infinite;
+        }
+
+        /* Анимации */
+        @keyframes glitch {
+            0% { transform: skew(-5deg) translate(0); }
+            20% { transform: skew(5deg) translate(-2px, 2px); }
+            40% { transform: skew(-5deg) translate(2px, -2px); }
+            60% { transform: skew(5deg) translate(-2px, 2px); }
+            80% { transform: skew(-5deg) translate(2px, -2px); }
+            100% { transform: skew(-5deg) translate(0); }
+        }
+
+        @keyframes flicker {
+            0%, 19%, 21%, 23%, 25%, 54%, 56%, 100% {
+                opacity: 1;
+                text-shadow:
+                    0 0 10px currentColor,
+                    0 0 20px currentColor;
+            }
+            20%, 24%, 55% {
+                opacity: 0.7;
+                text-shadow: none;
+            }
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 0.7; }
+            50% { opacity: 1; }
+        }
+
+        /* Ретро-эффекты */
+        .noise {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background:
+                repeating-linear-gradient(
+                    0deg,
+                    rgba(0, 0, 0, 0.15),
+                    rgba(0, 0, 0, 0.15) 1px,
+                    transparent 1px,
+                    transparent 2px
+                ),
+                repeating-linear-gradient(
+                    90deg,
+                    rgba(0, 0, 0, 0.15),
+                    rgba(0, 0, 0, 0.15) 1px,
+                    transparent 1px,
+                    transparent 2px
+                );
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        /* Карточки (как в Balatro) */
+        .card {
+            position: absolute;
+            width: 150px;
+            height: 220px;
+            background: linear-gradient(135deg, #ff00ff, #00ffff);
+            border-radius: 10px;
+            opacity: 0.1;
+            animation: float 10s infinite ease-in-out;
+            box-shadow: 0 0 20px rgba(255, 0, 255, 0.3);
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translate(0, 0) rotate(0deg); }
+            25% { transform: translate(50px, -30px) rotate(5deg); }
+            50% { transform: translate(-40px, 20px) rotate(-5deg); }
+            75% { transform: translate(30px, -20px) rotate(3deg); }
+        }
+
+        /* Дополнительные элементы */
+        .corner-decoration {
+            position: absolute;
+            width: 100px;
+            height: 100px;
+            border: 3px dashed #ff00ff;
+            opacity: 0.5;
+        }
+
+        .top-left { top: 10px; left: 10px; border-right: none; border-bottom: none; }
+        .top-right { top: 10px; right: 10px; border-left: none; border-bottom: none; }
+        .bottom-left { bottom: 10px; left: 10px; border-right: none; border-top: none; }
+        .bottom-right { bottom: 10px; right: 10px; border-left: none; border-top: none; }
+    </style>
+</head>
+<body>
+    <div class="noise"></div>
+
+    <!-- Угловые декорации -->
+    <div class="corner-decoration top-left"></div>
+    <div class="corner-decoration top-right"></div>
+    <div class="corner-decoration bottom-left"></div>
+    <div class="corner-decoration bottom-right"></div>
+
+    <!-- Шапка -->
+    <div class="header">
+        <div class="shop-title">NEBALATRO SHOP</div>
+    </div>
+
+    <!-- Основной текст -->
+    <div class="container">
+        <h1>KICK TIMATUN5000</h1>
+    </div>
+
+    <!-- Футер -->
+    <div class="footer">
+        <div class="author">РАЗРАБОТАЛ МАКС УГОЛЬНЫЙ</div>
+    </div>
+
+    <!-- Плавающие карточки -->
+    <div class="card" style="top: 20%; left: 10%;"></div>
+    <div class="card" style="top: 60%; left: 70%;"></div>
+    <div class="card" style="top: 30%; left: 80%;"></div>
+    <div class="card" style="top: 70%; left: 20%;"></div>
+</body>
+</html>
