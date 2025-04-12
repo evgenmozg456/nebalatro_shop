@@ -1,0 +1,462 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Регистрация | NEBALATRO</title>
+    <style>
+        :root {
+            --main-bg: #0a0a12;
+            --card-bg: #1a1a2a;
+            --accent: #d4af37;
+            --text: #e8e1d5;
+            --highlight: #ff5555;
+            --button-bg: #2a2a3a;
+            --button-hover: #3a3a4a;
+            --input-glow: rgba(212, 175, 55, 0.4);
+            --chip-red: #e74c3c;
+            --chip-blue: #3498db;
+            --chip-green: #2ecc71;
+            --input-height: 46px; /* Новая переменная для единой высоты */
+        }
+
+        body {
+            background-color: var(--main-bg);
+            color: var(--text);
+            font-family: 'Courier New', monospace;
+            margin: 0;
+            padding: 0;
+            background-image:
+                radial-gradient(circle at 20% 30%, #2a1a3a 0%, transparent 30%),
+                radial-gradient(circle at 80% 70%, #1a2a3a 0%, transparent 30%),
+                linear-gradient(to bottom, #0a0a12, #1a1a2a);
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+            box-sizing: border-box;
+        }
+
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 0;
+            margin-bottom: 40px;
+            box-sizing: border-box;
+        }
+
+        .logo {
+            font-size: 2.5rem;
+            font-weight: bold;
+            color: var(--accent);
+            text-shadow:
+                0 0 5px #fff,
+                0 0 10px var(--accent),
+                0 0 20px var(--highlight);
+            animation: neonGlow 1.5s ease-in-out infinite alternate;
+            position: relative;
+        }
+
+        .logo::after {
+            content: "";
+            position: absolute;
+            bottom: -10px;
+            left: 0;
+            width: 100%;
+            height: 2px;
+            background: linear-gradient(90deg, transparent, var(--accent), transparent);
+        }
+
+        @keyframes neonGlow {
+            from {
+                text-shadow:
+                    0 0 5px #fff,
+                    0 0 10px var(--accent),
+                    0 0 20px var(--highlight);
+            }
+            to {
+                text-shadow:
+                    0 0 10px #fff,
+                    0 0 20px var(--accent),
+                    0 0 30px var(--highlight),
+                    0 0 40px var(--highlight);
+            }
+        }
+
+        .login-link {
+            color: var(--accent);
+            text-decoration: none;
+            font-weight: bold;
+            padding: 8px 15px;
+            border: 1px solid var(--accent);
+            border-radius: 20px;
+            transition: all 0.3s;
+            background: rgba(42, 42, 58, 0.5);
+            box-sizing: border-box;
+            height: var(--input-height);
+            display: flex;
+            align-items: center;
+        }
+
+        .login-link:hover {
+            background-color: var(--accent);
+            color: var(--main-bg);
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(212, 175, 55, 0.3);
+        }
+
+        .registration-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            flex-grow: 1;
+            padding: 40px 20px;
+            position: relative;
+            box-sizing: border-box;
+            width: 100%;
+        }
+
+        .registration-card {
+            background-color: var(--card-bg);
+            border: 3px solid var(--accent);
+            border-radius: 15px;
+            padding: 30px;
+            width: 100%;
+            max-width: 500px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+            animation: cardAppear 0.8s ease-out;
+            position: relative;
+            overflow: hidden;
+            z-index: 2;
+            box-sizing: border-box;
+        }
+
+        .registration-card::before {
+            content: "";
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(212,175,55,0.1) 0%, transparent 70%);
+            z-index: -1;
+        }
+
+        @keyframes cardAppear {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .registration-title {
+            font-size: 1.8rem;
+            color: var(--accent);
+            text-align: center;
+            margin-bottom: 25px;
+            position: relative;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+
+        .registration-title::after {
+            content: "";
+            position: absolute;
+            bottom: -10px;
+            left: 25%;
+            right: 25%;
+            height: 2px;
+            background: linear-gradient(to right, transparent, var(--accent), transparent);
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+            position: relative;
+            width: 100%;
+            box-sizing: border-box;
+        }
+
+        .form-label {
+            display: block;
+            margin-bottom: 8px;
+            color: var(--accent);
+            font-weight: bold;
+            letter-spacing: 1px;
+        }
+
+        .form-input {
+            width: 100%;
+            height: var(--input-height);
+            padding: 0 15px 0 45px;
+            background-color: rgba(42, 42, 58, 0.7);
+            border: 2px solid var(--accent);
+            color: var(--text);
+            border-radius: 8px;
+            font-family: inherit;
+            font-size: 1rem;
+            transition: all 0.3s;
+            backdrop-filter: blur(5px);
+            box-sizing: border-box;
+            line-height: var(--input-height);
+        }
+
+        .form-input:focus {
+            outline: none;
+            border-color: var(--highlight);
+            box-shadow: 0 0 15px var(--input-glow);
+        }
+
+        .input-icon {
+            position: absolute;
+            left: 15px;
+            top: calc(var(--input-height) + 8px);
+            transform: translateY(-50%);
+            color: var(--accent);
+            font-size: 1.2rem;
+            transition: all 0.3s;
+        }
+
+        .form-input:focus + .input-icon {
+            color: var(--highlight);
+            transform: translateY(-50%) scale(1.1);
+        }
+
+        .submit-btn {
+            width: 100%;
+            height: var(--input-height);
+            background: linear-gradient(135deg, var(--accent), #e5c100);
+            color: var(--main-bg);
+            border: none;
+            border-radius: 8px;
+            font-family: inherit;
+            font-size: 1.1rem;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s;
+            margin-top: 15px;
+            box-shadow: 0 5px 15px rgba(212, 175, 55, 0.3);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            box-sizing: border-box;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .submit-btn:hover {
+            background: linear-gradient(135deg, var(--highlight), #ff6b6b);
+            transform: translateY(-2px);
+            box-shadow: 0 7px 20px rgba(255, 85, 85, 0.4);
+        }
+
+        .form-footer {
+            text-align: center;
+            margin-top: 20px;
+            font-size: 0.9rem;
+        }
+
+        .form-footer a {
+            color: var(--accent);
+            text-decoration: none;
+            transition: all 0.3s;
+            font-weight: bold;
+        }
+
+        .form-footer a:hover {
+            color: var(--highlight);
+            text-decoration: underline;
+        }
+
+        footer {
+            border-top: 2px solid var(--accent);
+            padding-top: 20px;
+            text-align: center;
+            margin-top: auto;
+            font-size: 0.9rem;
+        }
+
+        .chips-container {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            margin-top: 40px;
+            position: relative;
+            z-index: 1;
+            flex-wrap: wrap;
+        }
+
+        .poker-chip {
+            width: 70px;
+            height: 70px;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-weight: bold;
+            font-size: 1.1rem;
+            animation: chipFloat 4s ease-in-out infinite;
+            box-shadow: 0 8px 15px rgba(0,0,0,0.3);
+            position: relative;
+            border: 3px solid rgba(255,255,255,0.2);
+        }
+
+        .chip-red {
+            background: radial-gradient(circle at 30% 30%, var(--chip-red), #c0392b);
+            color: white;
+        }
+
+        .chip-blue {
+            background: radial-gradient(circle at 30% 30%, var(--chip-blue), #2980b9);
+            color: white;
+        }
+
+        .chip-green {
+            background: radial-gradient(circle at 30% 30%, var(--chip-green), #27ae60);
+            color: white;
+        }
+
+        .chip-value {
+            position: absolute;
+            font-size: 0.6rem;
+            bottom: 5px;
+            color: rgba(255,255,255,0.8);
+        }
+
+        @keyframes chipFloat {
+            0%, 100% { transform: translateY(0) rotate(0deg); }
+            50% { transform: translateY(-15px) rotate(10deg); }
+        }
+
+        .dice-decoration {
+            position: absolute;
+            opacity: 0.1;
+            z-index: 0;
+        }
+
+        .dice-1 {
+            top: 10%;
+            left: 5%;
+            animation: float 6s ease-in-out infinite;
+            font-size: 4rem;
+        }
+
+        .dice-2 {
+            bottom: 15%;
+            right: 5%;
+            animation: float 8s ease-in-out infinite reverse;
+            font-size: 5rem;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0) rotate(0deg); }
+            50% { transform: translateY(-25px) rotate(180deg); }
+        }
+
+        @media (max-width: 600px) {
+            .registration-card {
+                padding: 25px 20px;
+            }
+
+            .logo {
+                font-size: 2rem;
+            }
+
+            .registration-title {
+                font-size: 1.5rem;
+            }
+
+            :root {
+                --input-height: 42px;
+            }
+
+            .form-input {
+                font-size: 0.9rem;
+                padding-left: 40px;
+            }
+
+            .input-icon {
+                left: 12px;
+                font-size: 1rem;
+            }
+
+            .poker-chip {
+                width: 60px;
+                height: 60px;
+                font-size: 1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <div class="logo">NEBALATRO</div>
+            <a href="#" class="login-link">Вход</a>
+        </header>
+
+        <main class="registration-container">
+            <!-- Декоративные элементы -->
+            <div class="dice-decoration dice-1">⚀</div>
+            <div class="dice-decoration dice-2">⚁</div>
+
+            <div class="registration-card">
+                <h2 class="registration-title">Регистрация</h2>
+
+                <form>
+                    <div class="form-group">
+                        <label for="username" class="form-label">Имя пользователя</label>
+                        <span class="input-icon">👤</span>
+                        <input type="text" id="username" class="form-input" placeholder="Введите имя пользователя" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="email" class="form-label">Электронная почта</label>
+                        <span class="input-icon">✉️</span>
+                        <input type="email" id="email" class="form-input" placeholder="Введите ваш email" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="password" class="form-label">Пароль</label>
+                        <span class="input-icon">🔒</span>
+                        <input type="password" id="password" class="form-input" placeholder="Создайте пароль" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="confirm-password" class="form-label">Подтвердите пароль</label>
+                        <span class="input-icon">🔑</span>
+                        <input type="password" id="confirm-password" class="form-input" placeholder="Повторите пароль" required>
+                    </div>
+
+                    <button type="submit" class="submit-btn">Создать аккаунт</button>
+
+                    <div class="form-footer">
+                        Уже есть аккаунт? <a href="#">Войдите</a>
+                    </div>
+                </form>
+            </div>
+
+            <div class="chips-container">
+                <div class="poker-chip chip-red">$<span class="chip-value">100</span></div>
+                <div class="poker-chip chip-blue">$<span class="chip-value">500</span></div>
+                <div class="poker-chip chip-green">$<span class="chip-value">1000</span></div>
+            </div>
+        </main>
+
+        <footer>
+            <p>© 2023 NEBALATRO. Все права защищены.</p>
+            <p>Погрузитесь в мир азартных приключений</p>
+        </footer>
+    </div>
+</body>
+</html>

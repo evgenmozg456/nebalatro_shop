@@ -1,0 +1,494 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>О нас | NEBALATRO</title>
+    <style>
+        :root {
+            --main-bg: #0a0a12;
+            --card-bg: #1a1a2a;
+            --accent: #d4af37;
+            --text: #e8e1d5;
+            --highlight: #ff5555;
+            --button-bg: #2a2a3a;
+            --button-hover: #3a3a4a;
+            --dev-1: #3498db;
+            --dev-2: #e74c3c;
+            --dev-3: #2ecc71;
+            --input-height: 46px;
+        }
+
+        body {
+            background-color: var(--main-bg);
+            color: var(--text);
+            font-family: 'Courier New', monospace;
+            margin: 0;
+            padding: 0;
+            background-image:
+                radial-gradient(circle at 20% 30%, #2a1a3a 0%, transparent 30%),
+                radial-gradient(circle at 80% 70%, #1a2a3a 0%, transparent 30%),
+                linear-gradient(to bottom, #0a0a12, #1a1a2a);
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+            box-sizing: border-box;
+        }
+
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 0;
+            margin-bottom: 40px;
+            box-sizing: border-box;
+        }
+
+        .logo {
+            font-size: 2.5rem;
+            font-weight: bold;
+            color: var(--accent);
+            text-shadow:
+                0 0 5px #fff,
+                0 0 10px var(--accent),
+                0 0 20px var(--highlight);
+            animation: neonGlow 1.5s ease-in-out infinite alternate;
+            position: relative;
+        }
+
+        .logo::after {
+            content: "";
+            position: absolute;
+            bottom: -10px;
+            left: 0;
+            width: 100%;
+            height: 2px;
+            background: linear-gradient(90deg, transparent, var(--accent), transparent);
+        }
+
+        @keyframes neonGlow {
+            from {
+                text-shadow:
+                    0 0 5px #fff,
+                    0 0 10px var(--accent),
+                    0 0 20px var(--highlight);
+            }
+            to {
+                text-shadow:
+                    0 0 10px #fff,
+                    0 0 20px var(--accent),
+                    0 0 30px var(--highlight),
+                    0 0 40px var(--highlight);
+            }
+        }
+
+        .nav-button {
+            color: var(--accent);
+            text-decoration: none;
+            font-weight: bold;
+            padding: 8px 15px;
+            border: 1px solid var(--accent);
+            border-radius: 20px;
+            transition: all 0.3s;
+            background: rgba(42, 42, 58, 0.5);
+            box-sizing: border-box;
+            height: var(--input-height);
+            display: flex;
+            align-items: center;
+        }
+
+        .nav-button:hover {
+            background-color: var(--accent);
+            color: var(--main-bg);
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(212, 175, 55, 0.3);
+        }
+
+        .about-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            flex-grow: 1;
+            padding: 40px 20px;
+            position: relative;
+            box-sizing: border-box;
+            width: 100%;
+        }
+
+        .about-card {
+            background-color: var(--card-bg);
+            border: 3px solid var(--accent);
+            border-radius: 15px;
+            padding: 40px;
+            width: 100%;
+            max-width: 900px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+            position: relative;
+            overflow: hidden;
+            z-index: 2;
+            box-sizing: border-box;
+        }
+
+        .about-card::before {
+            content: "";
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(212,175,55,0.1) 0%, transparent 70%);
+            z-index: -1;
+        }
+
+        .section-title {
+            font-size: 1.8rem;
+            color: var(--accent);
+            text-align: center;
+            margin-bottom: 30px;
+            position: relative;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+
+        .section-title::after {
+            content: "";
+            position: absolute;
+            bottom: -10px;
+            left: 25%;
+            right: 25%;
+            height: 2px;
+            background: linear-gradient(to right, transparent, var(--accent), transparent);
+        }
+
+        .about-text {
+            line-height: 1.6;
+            margin-bottom: 40px;
+            text-align: center;
+            font-size: 1.1rem;
+        }
+
+        .developers-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 30px;
+            margin-top: 40px;
+        }
+
+        .developer-card {
+            background-color: var(--card-bg);
+            border-radius: 10px;
+            padding: 25px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+            transition: transform 0.3s;
+            border: 2px solid transparent;
+        }
+
+        .developer-card:hover {
+            transform: translateY(-10px);
+        }
+
+        .developer-card::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 5px;
+        }
+
+        .dev-1 {
+            border-color: var(--dev-1);
+        }
+
+        .dev-1::before {
+            background: linear-gradient(90deg, var(--dev-1), #2980b9);
+        }
+
+        .dev-2 {
+            border-color: var(--dev-2);
+        }
+
+        .dev-2::before {
+            background: linear-gradient(90deg, var(--dev-2), #c0392b);
+        }
+
+        .dev-3 {
+            border-color: var(--dev-3);
+        }
+
+        .dev-3::before {
+            background: linear-gradient(90deg, var(--dev-3), #27ae60);
+        }
+
+        .developer-avatar {
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 3px solid var(--accent);
+            margin: 0 auto 20px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+        }
+
+        .developer-name {
+            font-size: 1.5rem;
+            margin: 10px 0;
+            font-weight: bold;
+        }
+
+        .developer-role {
+            color: var(--accent);
+            font-size: 1rem;
+            margin-bottom: 15px;
+        }
+
+        .developer-bio {
+            font-size: 0.9rem;
+            line-height: 1.5;
+            margin-bottom: 15px;
+        }
+
+        .developer-skills {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 8px;
+            margin-top: 15px;
+        }
+
+        .skill-tag {
+            background: rgba(212, 175, 55, 0.2);
+            color: var(--accent);
+            padding: 4px 10px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            border: 1px solid var(--accent);
+        }
+
+        .stats-container {
+            display: flex;
+            justify-content: space-around;
+            margin: 50px 0;
+            flex-wrap: wrap;
+            gap: 20px;
+        }
+
+        .stat-item {
+            text-align: center;
+            min-width: 150px;
+        }
+
+        .stat-number {
+            font-size: 2.5rem;
+            font-weight: bold;
+            color: var(--accent);
+            margin-bottom: 10px;
+            text-shadow: 0 0 10px rgba(212, 175, 55, 0.5);
+        }
+
+        .stat-label {
+            font-size: 0.9rem;
+            opacity: 0.8;
+        }
+
+        footer {
+            border-top: 2px solid var(--accent);
+            padding-top: 20px;
+            text-align: center;
+            margin-top: auto;
+            font-size: 0.9rem;
+        }
+
+        .floating-cards {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+            pointer-events: none;
+            z-index: 0;
+            overflow: hidden;
+        }
+
+        .floating-card {
+            position: absolute;
+            width: 80px;
+            height: 120px;
+            background-color: rgba(42, 42, 58, 0.3);
+            border: 2px solid var(--accent);
+            border-radius: 8px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 1.5rem;
+            color: var(--accent);
+            opacity: 0.3;
+            animation: floatCard 15s linear infinite;
+        }
+
+        .floating-card:nth-child(1) {
+            top: 10%;
+            left: 5%;
+            animation-delay: 0s;
+        }
+
+        .floating-card:nth-child(2) {
+            top: 30%;
+            right: 8%;
+            animation-delay: 3s;
+            animation-duration: 18s;
+        }
+
+        .floating-card:nth-child(3) {
+            bottom: 20%;
+            left: 15%;
+            animation-delay: 6s;
+            animation-duration: 20s;
+        }
+
+        .floating-card:nth-child(4) {
+            bottom: 40%;
+            right: 20%;
+            animation-delay: 9s;
+            animation-duration: 16s;
+        }
+
+        @keyframes floatCard {
+            0% {
+                transform: translateY(0) rotate(0deg);
+            }
+            50% {
+                transform: translateY(-50px) rotate(10deg);
+            }
+            100% {
+                transform: translateY(0) rotate(0deg);
+            }
+        }
+
+        @media (max-width: 768px) {
+            .about-card {
+                padding: 25px;
+            }
+
+            .developers-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .stats-container {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .stat-item {
+                margin-bottom: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <div class="logo">NEBALATRO</div>
+            <div>
+                <a href="register.html" class="nav-button">Регистрация</a>
+                <a href="login.html" class="nav-button" style="margin-left: 10px;">Вход</a>
+            </div>
+        </header>
+
+        <main class="about-container">
+            <!-- Плавающие карты на заднем фоне -->
+            <div class="floating-cards">
+                <div class="floating-card">A</div>
+                <div class="floating-card">K</div>
+                <div class="floating-card">Q</div>
+                <div class="floating-card">J</div>
+            </div>
+
+            <div class="about-card">
+                <h2 class="section-title">О нашем проекте</h2>
+
+                <p class="about-text">
+                    NEBALATRO — это инновационная платформа для любителей карточных игр, сочетающая в себе классические механики
+                    с современными технологиями. Наш проект создан энтузиастами для энтузиастов, чтобы предоставить уникальный
+                    игровой опыт с элементами стратегии, азарта и неожиданных поворотов.
+                </p>
+
+                <div class="stats-container">
+                    <div class="stat-item">
+                        <div class="stat-number">10K+</div>
+                        <div class="stat-label">Игроков</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-number">50+</div>
+                        <div class="stat-label">Игровых режимов</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-number">2023</div>
+                        <div class="stat-label">Год основания</div>
+                    </div>
+                </div>
+
+                <h2 class="section-title">Наша команда</h2>
+
+                <div class="developers-grid">
+                    <div class="developer-card dev-1">
+                        <img src="static/victor.jpg" alt="Алексей" class="developer-avatar">
+                        <h3 class="developer-name">Виктор</h3>
+                        <div class="developer-role">Главный разработчик</div>
+                        <p class="developer-bio">
+                            Специалист по игровым механикам и алгоритмам. Отвечает за ядро игры и баланс карт.
+                        </p>
+                        <div class="developer-skills">
+                            <span class="skill-tag">C++</span>
+                            <span class="skill-tag">Unity</span>
+                            <span class="skill-tag">AI</span>
+                        </div>
+                    </div>
+
+                    <div class="developer-card dev-2">
+                        <img src="static/timatun.jpg" alt="timatun5000" class="developer-avatar">
+                        <h3 class="developer-name">timatun5000</h3>
+                        <div class="developer-role">бездельник/дотер</div>
+                        <p class="developer-bio">
+                            ничего не сделал, сидел играл в доту, 60 мин в эледн ринге
+                        </p>
+                        <div class="developer-skills">
+                            <span class="skill-tag">BALATRO</span>
+                            <span class="skill-tag">DOTA2</span>
+                            <span class="skill-tag">CLASH ROYAL</span>
+                        </div>
+                    </div>
+
+                    <div class="developer-card dev-3">
+                        <img src="static/evgen.jpg" alt="evgenmozg" class="developer-avatar">
+                        <h3 class="developer-name">evgenmozg</h3>
+                        <div class="developer-role">ТИД ЛИД</div>
+                        <p class="developer-bio">
+                            всё сделал, 180 часов в элден ринге и вообще красава про
+                        </p>
+                        <div class="developer-skills">
+                            <span class="skill-tag">ELDEN RING</span>
+                            <span class="skill-tag">ELEDEN RING</span>
+                            <span class="skill-tag">CLASH ROYAL</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+
+        <footer>
+            <p>© 2023 NEBALATRO. Все права защищены.</p>
+            <p>Погрузитесь в мир азартных приключений</p>
+        </footer>
+    </div>
+</body>
+</html>
