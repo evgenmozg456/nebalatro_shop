@@ -1,3 +1,4 @@
+import flask_login
 from flask import Flask, render_template, request, redirect
 
 from data import db_session
@@ -87,12 +88,13 @@ def reqister():
     return render_template('testing_reg.html', title='Регистрация', form=form)
 
 
-# @app.route('/profile')
-# def profile():
-#     db_sess = db_session.create_session()
-#     user = db_sess.query(User).filter(User.email == form.email.data).first()
-#     logout_user()
-#     return redirect("/")
+@app.route('/profile')
+def profile():
+    cur_user = flask_login.current_user
+    if current_user.is_authenticated:
+        return (f'hello {cur_user.name}'
+                f'{cur_user.about}'
+                f'{cur_user.created_date}')
 
 
 @app.route('/logout')
