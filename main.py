@@ -7,8 +7,6 @@ from forms.user_form import RegisterForm
 from flask_wtf.csrf import CSRFProtect
 from flask_login import LoginManager, login_user, logout_user, login_required, current_user
 
-# from data.users import User
-
 app = Flask(__name__)
 app.config['SECRET_KEY'] = 'yandexlyceum_secret_key'
 csrf = CSRFProtect(app)
@@ -39,10 +37,6 @@ def home():
 def kick_timatun():
     return render_template('kick_timatun.html')
 
-
-# @app.route('/register')
-# def register():
-#     return render_template('register.html')
 
 
 @app.route('/signin')
@@ -101,11 +95,6 @@ def logout():
     logout_user()
     return redirect("/")
 
-
-# if __name__ == '__main__':
-#     # data.db_session.global_init("db/nebalatro.db")
-#     # # db_session.global_init("db/nebalatro.db")
-#     # app.run(port=8080, host='127.0.0.1')
 
 def main():
     db_session.global_init("db/nebalatro.db")
