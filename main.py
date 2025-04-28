@@ -32,11 +32,9 @@ def home():
     return render_template('home.html')
 
 
-
 @app.route('/kick_timatun')
 def kick_timatun():
     return render_template('kick_timatun.html')
-
 
 
 @app.route('/signin')
@@ -87,6 +85,14 @@ def reqister():
         db_sess.commit()
         return redirect('/login')
     return render_template('testing_reg.html', title='Регистрация', form=form)
+
+
+# @app.route('/profile')
+# def profile():
+#     db_sess = db_session.create_session()
+#     user = db_sess.query(User).filter(User.email == form.email.data).first()
+#     logout_user()
+#     return redirect("/")
 
 
 @app.route('/logout')
