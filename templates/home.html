@@ -251,16 +251,29 @@
     <div class="container">
         <header>
             <div class="nav-left">
-                    <a href="/registration_test" class="nav-button">Регистрация</a>
-                    <a href="/" class="nav-button">Регистрация</a>
-                    <a href="/" class="nav-button">Регистрация</a>
+                    {% if current_user.is_authenticated %}
+                        <a class="nav-button" href="/logout">выйти</a>
+                    {% else %}
+                        <p>
+                            <a class="nav-button " href="/registration_test">Зарегистрироваться</a>
+                            <a class="nav-button" href="/login">Войти</a>
+                            <a href="/about" class="nav-button">о нас</a>
+                        </p>
+                    {% endif %}
+<!--                    <a href="/registration_test" class="nav-button">Регистрация</a>-->
+<!--                    <a href="/login" class="nav-button">авторизация</a>-->
+<!--                    <a href="/about" class="nav-button">о нас</a>-->
 <!--                    <button class="nav-button"  name="button_reg" value="button_reg">Регистрация</button>-->
 <!--                    <button class="nav-button" name="button_sign" value="button_sign">Вход</button>-->
 <!--                    <button class="nav-button" name="button_about" value="button_about">О нас</button>-->
             </div>
 
             <div class="nav-right">
-                <button class="nav-button">Профиль</button>
+                {% if current_user.is_authenticated %}
+                    <a class="nav-button " href="/profile">{{ current_user.name }}</a>
+                {% else %}
+                     <a class="nav-button " href="/login">профиль</a>
+                {% endif %}
             </div>
         </header>
 

@@ -1,4 +1,5 @@
-from flask import Flask, render_template, request, redirect, url_for
+import flask_login
+from flask import Flask, render_template, request, redirect
 
 from data import db_session
 from data.comments import Comment
@@ -8,8 +9,6 @@ from forms.user_form import RegisterForm
 from forms.comment_form import CommentForm
 from flask_wtf.csrf import CSRFProtect
 from flask_login import LoginManager, login_user, logout_user, login_required, current_user
-
-# from data.users import User
 
 app = Flask(__name__)
 app.config['SECRET_KEY'] = 'yandexlyceum_secret_key'
@@ -36,15 +35,9 @@ def home():
     return render_template('home.html')
 
 
-
 @app.route('/kick_timatun')
 def kick_timatun():
     return render_template('kick_timatun.html')
-
-
-# @app.route('/register')
-# def register():
-#     return render_template('register.html')
 
 
 @app.route('/signin')
@@ -97,6 +90,15 @@ def reqister():
     return render_template('testing_reg.html', title='Регистрация', form=form)
 
 
+@app.route('/profile')
+def profile():
+    cur_user = flask_login.current_user
+    if current_user.is_authenticated:
+        return (f'hello {cur_user.name}'
+                f'{cur_user.about}'
+                f'{cur_user.created_date}')
+
+
 @app.route('/logout')
 @login_required
 def logout():
@@ -125,11 +127,6 @@ def comment():
         return redirect('/')
     return render_template('LeaveComment.html', title='Регистрация', form=form)
 
-
-# if __name__ == '__main__':
-#     # data.db_session.global_init("db/nebalatro.db")
-#     # # db_session.global_init("db/nebalatro.db")
-#     # app.run(port=8080, host='127.0.0.1')
 
 def main():
     db_session.global_init("db/nebalatro.db")
