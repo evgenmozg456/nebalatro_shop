@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Оставить коммент</title>
+</head>
+<body>
+    <h1>Написать обзор продукта %Название игры%</h1>
+<form action="" method="post" novalidate>
+    {{ form.hidden_tag() }}
+    <div>
+            {{ form.csrf_token }}
+        </div>
+
+        {{ form.text.label }}<br>
+        {{ form.text(class="form-control") }}<br>
+        {% for error in form.text.errors %}
+    <div class="alert alert-danger" role="alert">
+        {{ error }}
+    </div>
+    {% endfor %}
+    <p>{{ form.send(type="submit", class="btn btn-primary")}}</p>
+</form>
+</body>
+</html>

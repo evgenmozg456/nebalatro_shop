@@ -1,9 +1,11 @@
-from flask import Flask, render_template, request, redirect
+from flask import Flask, render_template, request, redirect, url_for
 
 from data import db_session
+from data.comments import Comment
 from data.users import User
 from forms.loginform import LoginForm
 from forms.user_form import RegisterForm
+from forms.comment_form import CommentForm
 from flask_wtf.csrf import CSRFProtect
 from flask_login import LoginManager, login_user, logout_user, login_required, current_user
 
@@ -100,6 +102,28 @@ def reqister():
 def logout():
     logout_user()
     return redirect("/")
+
+@app.route('/comments_list', methods=['GET', 'POST'])
+def comments_list():
+    db_sess = db_session.create_session()
+    comments = db_sess.query(Comment).all()
+    coms = []
+    for i in comments:
+        user_name = db_sess.query(User).filter(User.id == i.user_id).first()
+        coms.append([i.id, i.text, user_name.name, i.data, i.reply_id, i.game_id])
+    return render_template('comments_list_test.html', title= 'Комменты', form= coms)
+
+
+@app.route('/comment', methods=['GET', 'POST'])
+def comment():
+    form = CommentForm()
+    if form.validate_on_submit():
+
+        request.form.get('text')
+        print(request.form.get('id'))
+
+        return redirect('/')
+    return render_template('LeaveComment.html', title='Регистрация', form=form)
 
 
 # if __name__ == '__main__':
