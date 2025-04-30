@@ -1,8 +1,8 @@
 import datetime
 import sqlalchemy
-from .db_session import SqlAlchemyBase
+from data.db_session import SqlAlchemyBase
 from sqlalchemy_serializer import *
-
+# pip install SQLAlchemy-serializer
 
 class Comment(SqlAlchemyBase, SerializerMixin):
     __tablename__ = 'comments'
@@ -15,3 +15,4 @@ class Comment(SqlAlchemyBase, SerializerMixin):
     game_id = sqlalchemy.Column(sqlalchemy.Integer, nullable=True)
     data = sqlalchemy.Column(sqlalchemy.DateTime,
                              default=datetime.datetime.now().date())
+# .strftime('%d.%m.%Y %H:%M')

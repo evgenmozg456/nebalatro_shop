@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Комментарий</title>
+</head>
+<body>
+    <h1>Список всех коментариев</h1>
+    <form action="" method="POST">
+        {{ form.csrf_token }}
+
+        <p>{%for com in form%}
+                <p>
+                Имя пользователя:{{com[2]}}<br>
+                {{com[1]}}
+<!--                <button class="btn btn-primary" href="/">Ответить</button><br>-->
+<!--                <button type="submit" class="btn btn-primary" href="/comment">Записаться</button><br>-->
+                <a class="btn btn-primary " href="/comment">Ответить</a><br>
+                Дата отправки: {{com[3]}}
+                </p>
+            {% endfor %}
+
+        </p>
+    </form>
+</body>
+</html>
