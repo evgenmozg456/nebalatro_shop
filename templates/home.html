@@ -280,11 +280,13 @@
             <div class="logo">NEBALATRO</div>
             <div class="search-container">
                 <div class="search-prompt">ВВЕДИТЕ НАЗВАНИЕ ИГРЫ</div>
-
                 <div class="search-box">
-                    <input type="text" class="search-input" placeholder="Например: Poker Royale">
-                    <div class="search-icon">♠</div>
-                    <button class="search-button">Найти</button>
+                    <form method="POST">
+                        <input type="text" name="game_name" class="search-input" placeholder="Например: Poker Royale">
+                        <div class="search-icon">♠</div>
+                        {{ form.hidden_tag() }}
+                        <button class="search-button" name="find" value="find">Найти</button>
+                    </form>
                 </div>
             </div>
 

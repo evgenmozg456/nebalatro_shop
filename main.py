@@ -8,6 +8,7 @@ from werkzeug.utils import secure_filename
 from data import db_session
 from data.comments import Comment
 from data.users import User
+from forms.finder_form import FindForm
 from forms.loginform import LoginForm
 from forms.redact_form import RedactForm
 from forms.user_form import RegisterForm
@@ -31,6 +32,7 @@ def load_user(user_id):
 
 @app.route('/', methods=['GET', 'POST'])
 def home():
+    form = FindForm()
     if request.method == 'POST':
         if 'button_reg' in request.form:
             return redirect('/registration_test')
@@ -38,7 +40,11 @@ def home():
             return redirect('/login')
         elif 'button_about' in request.form:
             return redirect('/about')
-    return render_template('home.html')
+        elif 'find' in request.form:
+            game_name = request.form['game_name']
+            print(game_name)
+            return redirect('/registration_test')
+    return render_template('home.html', form=form)
 
 
 @app.route('/kick_timatun')
