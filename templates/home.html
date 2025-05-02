@@ -1,4 +1,4 @@
-!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="ru">
 <head>
     <meta charset="UTF-8">
@@ -267,7 +267,6 @@
 <!--                    <button class="nav-button" name="button_sign" value="button_sign">Вход</button>-->
 <!--                    <button class="nav-button" name="button_about" value="button_about">О нас</button>-->
             </div>
-
             <div class="nav-right">
                 {% if current_user.is_authenticated %}
                     <a class="nav-button " href="/profile">{{ current_user.name }}</a>
@@ -279,14 +278,15 @@
 
         <main class="main-content">
             <div class="logo">NEBALATRO</div>
-
             <div class="search-container">
                 <div class="search-prompt">ВВЕДИТЕ НАЗВАНИЕ ИГРЫ</div>
-
                 <div class="search-box">
-                    <input type="text" class="search-input" placeholder="Например: Poker Royale">
-                    <div class="search-icon">♠</div>
-                    <button class="search-button">Найти</button>
+                    <form method="POST">
+                        <input type="text" name="game_name" class="search-input" placeholder="Например: Poker Royale">
+                        <div class="search-icon">♠</div>
+                        {{ form.hidden_tag() }}
+                        <button class="search-button" name="find" value="find">Найти</button>
+                    </form>
                 </div>
             </div>
 
