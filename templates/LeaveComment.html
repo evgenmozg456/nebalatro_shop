@@ -11,7 +11,8 @@
     <div>
             {{ form.csrf_token }}
         </div>
-
+        reply_id:{{ reply_id }}<br>
+        game_id:{{ game_id }}<br>
         {{ form.text.label }}<br>
         {{ form.text(class="form-control") }}<br>
         {% for error in form.text.errors %}
