@@ -1,0 +1,357 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Профиль | NEBALATRO</title>
+    <style>
+        :root {
+            --main-bg: #0a0a12;
+            --card-bg: #1a1a2a;
+            --accent: #d4af37;
+            --text: #e8e1d5;
+            --highlight: #ff5555;
+            --button-bg: #2a2a3a;
+            --button-hover: #3a3a4a;
+            --input-glow: rgba(212, 175, 55, 0.4);
+            --chip-red: #e74c3c;
+            --chip-blue: #3498db;
+            --chip-green: #2ecc71;
+        }
+
+        body {
+            background-color: var(--main-bg);
+            color: var(--text);
+            font-family: 'Courier New', monospace;
+            margin: 0;
+            padding: 0;
+            background-image:
+                radial-gradient(circle at 20% 30%, #2a1a3a 0%, transparent 30%),
+                radial-gradient(circle at 80% 70%, #1a2a3a 0%, transparent 30%),
+                linear-gradient(to bottom, #0a0a12, #1a1a2a);
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 0;
+            margin-bottom: 40px;
+        }
+
+        .logo {
+            font-size: 2.5rem;
+            font-weight: bold;
+            color: var(--accent);
+            text-shadow:
+                0 0 5px #fff,
+                0 0 10px var(--accent),
+                0 0 20px var(--highlight);
+            animation: neonGlow 1.5s ease-in-out infinite alternate;
+            position: relative;
+        }
+
+        .logo::after {
+            content: "";
+            position: absolute;
+            bottom: -10px;
+            left: 0;
+            width: 100%;
+            height: 2px;
+            background: linear-gradient(90deg, transparent, var(--accent), transparent);
+        }
+
+        @keyframes neonGlow {
+            from {
+                text-shadow:
+                    0 0 5px #fff,
+                    0 0 10px var(--accent),
+                    0 0 20px var(--highlight);
+            }
+            to {
+                text-shadow:
+                    0 0 10px #fff,
+                    0 0 20px var(--accent),
+                    0 0 30px var(--highlight),
+                    0 0 40px var(--highlight);
+            }
+        }
+
+        .nav-button {
+            color: var(--accent);
+            text-decoration: none;
+            font-weight: bold;
+            padding: 8px 15px;
+            border: 1px solid var(--accent);
+            border-radius: 20px;
+            transition: all 0.3s;
+            background: rgba(42, 42, 58, 0.5);
+        }
+
+        .nav-button:hover {
+            background-color: var(--accent);
+            color: var(--main-bg);
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(212, 175, 55, 0.3);
+        }
+
+        .profile-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            flex-grow: 1;
+            padding: 40px 20px;
+            position: relative;
+        }
+
+        .profile-card {
+            background-color: var(--card-bg);
+            border: 3px solid var(--accent);
+            border-radius: 15px;
+            padding: 40px;
+            width: 100%;
+            max-width: 600px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+            z-index: 2;
+        }
+
+        .profile-card::before {
+            content: "";
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(212,175,55,0.1) 0%, transparent 70%);
+            z-index: -1;
+        }
+
+        .profile-avatar {
+            width: 150px;
+            height: 150px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 3px solid var(--accent);
+            margin: 0 auto 20px;
+            box-shadow: 0 0 20px rgba(212, 175, 55, 0.3);
+            transition: all 0.3s;
+        }
+
+        .profile-avatar:hover {
+            transform: scale(1.05);
+            box-shadow: 0 0 30px rgba(212, 175, 55, 0.5);
+        }
+
+        .profile-username {
+            font-size: 2rem;
+            color: var(--accent);
+            margin: 10px 0;
+            text-shadow: 0 0 10px rgba(212, 175, 55, 0.3);
+        }
+
+        .profile-date {
+            color: var(--text);
+            opacity: 0.8;
+            margin-bottom: 20px;
+            font-size: 0.9rem;
+        }
+
+        .profile-bio {
+            background-color: rgba(42, 42, 58, 0.5);
+            border: 1px solid var(--accent);
+            border-radius: 10px;
+            padding: 20px;
+            margin: 20px 0;
+            text-align: left;
+            line-height: 1.6;
+        }
+
+        .profile-stats {
+            display: flex;
+            justify-content: space-around;
+            margin: 30px 0;
+        }
+
+        .stat-item {
+            text-align: center;
+        }
+
+        .stat-number {
+            font-size: 1.8rem;
+            font-weight: bold;
+            color: var(--accent);
+            margin-bottom: 5px;
+        }
+
+        .stat-label {
+            font-size: 0.9rem;
+            opacity: 0.8;
+        }
+
+        .edit-button {
+            background: linear-gradient(135deg, var(--accent), #e5c100);
+            color: var(--main-bg);
+            border: none;
+            border-radius: 8px;
+            padding: 10px 25px;
+            font-family: inherit;
+            font-size: 1rem;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s;
+            margin-top: 20px;
+            box-shadow: 0 5px 15px rgba(212, 175, 55, 0.3);
+        }
+
+        .edit-button:hover {
+            background: linear-gradient(135deg, var(--highlight), #ff6b6b);
+            transform: translateY(-2px);
+            box-shadow: 0 7px 20px rgba(255, 85, 85, 0.4);
+        }
+
+        .floating-cards {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+            pointer-events: none;
+            z-index: 0;
+            overflow: hidden;
+        }
+
+        .floating-card {
+            position: absolute;
+            width: 80px;
+            height: 120px;
+            background-color: rgba(42, 42, 58, 0.3);
+            border: 2px solid var(--accent);
+            border-radius: 8px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 1.5rem;
+            color: var(--accent);
+            opacity: 0.3;
+            animation: floatCard 15s linear infinite;
+        }
+
+        .floating-card:nth-child(1) {
+            top: 10%;
+            left: 5%;
+            animation-delay: 0s;
+        }
+
+        .floating-card:nth-child(2) {
+            top: 30%;
+            right: 8%;
+            animation-delay: 3s;
+            animation-duration: 18s;
+        }
+
+        .floating-card:nth-child(3) {
+            bottom: 20%;
+            left: 15%;
+            animation-delay: 6s;
+            animation-duration: 20s;
+        }
+
+        @keyframes floatCard {
+            0% { transform: translateY(0) rotate(0deg); }
+            50% { transform: translateY(-50px) rotate(10deg); }
+            100% { transform: translateY(0) rotate(0deg); }
+        }
+
+        footer {
+            border-top: 2px solid var(--accent);
+            padding-top: 20px;
+            text-align: center;
+            margin-top: auto;
+            font-size: 0.9rem;
+        }
+
+        @media (max-width: 768px) {
+            .profile-card {
+                padding: 25px;
+            }
+
+            .profile-avatar {
+                width: 120px;
+                height: 120px;
+            }
+
+            .profile-username {
+                font-size: 1.5rem;
+            }
+
+            .profile-stats {
+                flex-direction: column;
+                gap: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <div class="logo">NEBALATRO</div>
+            <a href="/" class="nav-button">назад</a>
+        </header>
+
+        <main class="profile-container">
+            <!-- Плавающие карты на заднем фоне -->
+            <div class="floating-cards">
+                <div class="floating-card">A</div>
+                <div class="floating-card">K</div>
+                <div class="floating-card">Q</div>
+            </div>
+
+            <div class="profile-card">
+                <img src="static/avatar_default.jpg" alt="static/avatar_default.jpg" class="profile-avatar">
+                <h2 class="profile-username">{{name}}</h2>
+                <div class="profile-date">{{created_date}}</div>
+
+                <div class="profile-bio">
+                    <h3 style="color: var(--accent); margin-top: 0;">Обо мне</h3>
+                    <p>{{about}}</p>
+                </div>
+
+                <div class="profile-stats">
+                    <div class="stat-item">
+                        <div class="stat-number">1,250</div>
+                        <div class="stat-label">Очков</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-number">87</div>
+                        <div class="stat-label">Игр</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-number">24</div>
+                        <div class="stat-label">Победы</div>
+                    </div>
+                </div>
+
+                <a class="edit-button" href="/profile_redact">Редактировать профиль</a>
+            </div>
+        </main>
+
+        <footer>
+            <p>© 2023 NEBALATRO. Все права защищены.</p>
+            <p>Погрузитесь в мир азартных приключений</p>
+        </footer>
+    </div>
+</body>
+</html>

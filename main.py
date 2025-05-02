@@ -1,10 +1,16 @@
+import os
+
 import flask_login
-from flask import Flask, render_template, request, redirect
+from flask import Flask, render_template, request, redirect, abort
+from werkzeug.datastructures import FileStorage
+from werkzeug.utils import secure_filename
 
 from data import db_session
 from data.comments import Comment
 from data.users import User
+from forms.finder_form import FindForm
 from forms.loginform import LoginForm
+from forms.redact_form import RedactForm
 from forms.user_form import RegisterForm
 from forms.comment_form import CommentForm
 from flask_wtf.csrf import CSRFProtect
@@ -12,6 +18,7 @@ from flask_login import LoginManager, login_user, logout_user, login_required, c
 
 app = Flask(__name__)
 app.config['SECRET_KEY'] = 'yandexlyceum_secret_key'
+app.config['UPLOAD_FOLDER'] = 'static'
 csrf = CSRFProtect(app)
 login_manager = LoginManager()
 login_manager.init_app(app)
@@ -25,6 +32,7 @@ def load_user(user_id):
 
 @app.route('/', methods=['GET', 'POST'])
 def home():
+    form = FindForm()
     if request.method == 'POST':
         if 'button_reg' in request.form:
             return redirect('/registration_test')
@@ -32,7 +40,11 @@ def home():
             return redirect('/login')
         elif 'button_about' in request.form:
             return redirect('/about')
-    return render_template('home.html')
+        elif 'find' in request.form:
+            game_name = request.form['game_name']
+            print(game_name)
+            return redirect('/registration_test')
+    return render_template('home.html', form=form)
 
 
 @app.route('/kick_timatun')
@@ -94,9 +106,8 @@ def reqister():
 def profile():
     cur_user = flask_login.current_user
     if current_user.is_authenticated:
-        return (f'hello {cur_user.name}'
-                f'{cur_user.about}'
-                f'{cur_user.created_date}')
+        return render_template('profile.html',
+                               created_date=cur_user.created_date, name=cur_user.name, about=cur_user.about)
 
 
 @app.route('/logout')
@@ -153,6 +164,25 @@ def comment(reply_id,game_id):
 
         return redirect('/')
     return render_template('LeaveComment.html', title='Комментарий', form=form, reply_id = reply_id,game_id=game_id )
+
+
+@app.route('/profile_redact', methods=['GET', 'POST'])
+def profile_redact():
+    form = RedactForm()
+    cur_user = flask_login.current_user
+    db_sess = db_session.create_session()
+    if form.validate_on_submit():
+
+        user = db_sess.query(User).filter(User.id == cur_user.id).first()
+
+        if user:
+            file_path = os.path.join(app.config['UPLOAD_FOLDER'], str(user.id) + ".jpg")
+            form.avatar.data.save(file_path)
+            user.name = form.name.data
+            user.about = form.about.data
+            db_sess.commit()
+            return redirect("/profile")
+    return render_template('redact.html', title='Регистрация', form=form)
 
 
 def main():
