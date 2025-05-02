@@ -144,7 +144,7 @@ def get_comment_rec(db_sess, id_parent, level=0):
 
 
 
-
+# обработка создания комма
 @app.route('/comment/<int:reply_id>/<int:game_id>', methods=['GET', 'POST'])
 def comment(reply_id,game_id):
     form = CommentForm()
