@@ -244,6 +244,8 @@
             margin-top: 40px;
             font-size: 0.9rem;
         }
+
+
     </style>
 </head>
 <body>
@@ -251,9 +253,16 @@
     <form action="" method="POST">
         {{ form.csrf_token }}
         <p>
-<!--            {%for com in form%}-->
-            {{form}}<br>
-<!--        {% endfor %}-->
+            {%for coms in form%}
+            <p style="border:5px; border-style:inset; border-color:pink; padding: 1em; border-radius: 30px;">
+                {{coms[2] |safe}}<br>
+                {{coms[1] |safe}}<br>
+                {{coms[3] |safe}}<br>
+                <a class="nav-button" href="/comment/{{coms[4]}}/{{coms[5]}}">Ответить</a>
+            </p>
+                <div>{{coms[7] |safe}}</div>
+
+            {% endfor %}
 <!--        <p>{%for com in form%}-->
 <!--                <p style="margin-left: 50px;">-->
 <!--                Имя пользователя:{{com[2]}}<br>-->

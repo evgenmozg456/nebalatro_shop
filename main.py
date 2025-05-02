@@ -108,11 +108,11 @@ def logout():
 @app.route('/comments_list', methods=['GET', 'POST'])
 def comments_list():
     db_sess = db_session.create_session()
-    comments = db_sess.query(Comment).all()
+    comments = db_sess.query(Comment).filter(Comment.reply_id == 0).all()
     coms = []
     for i in comments:
         user_name = db_sess.query(User).filter(User.id == i.user_id).first()
-        coms.append([i.id, i.text, user_name.name, i.data, i.reply_id, i.game_id, 0, get_comment_rec(db_sess, i.id, 0)])
+        coms.append([i.id, i.text, user_name.name, i.data, i.reply_id, i.game_id, 0, get_comment_rec(db_sess, i.id, 1)])
     return render_template('comments_list_test.html', title= 'Комменты', form= coms)
 
 
@@ -120,23 +120,25 @@ def get_comment_rec(db_sess, id_parent, level=0):
     comments = db_sess.query(Comment).filter(Comment.reply_id == id_parent).all()
 
     if not comments:
-        return None
+        return ''
     else:
         coms = ''
         for i in comments:
             user_name = db_sess.query(User).filter(User.id == i.user_id).first()
             s = f"""
             <p>
-                <p style="margin-left: 50px;">
+                <p style="margin-left: {50*level}px; border:5px; border-style:inset; border-color:pink; padding: 1em; border-radius: 30px;">
                 Имя пользователя:{user_name.name}<br>
-                <a class="nav-button" href="/comment/1/2" >Ответить</a><br>
-                Дата отправки: 
-                </p>
-            
+                Комментарий:{i.text}<br>
+                Дата отправки:{i.data}<br>
+                <a class="nav-button" href="/comment/{i.id}/{i.game_id}">Ответить</a>
 
-        </p>
+                </p>
+            </p>
             """
             coms += s
+            if i.reply_id != 0:
+                coms+= get_comment_rec(db_sess, i.id, level+1)
             # coms.append([i.id, i.text, user_name.name, i.data, i.reply_id, i.game_id, level+1, get_comment_rec(session, i.id, level+1)])
         return coms
 
