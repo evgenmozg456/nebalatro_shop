@@ -1,13 +1,14 @@
 import os
 
 import flask_login
-from flask import Flask, render_template, request, redirect, abort
+from flask import Flask, render_template, request, redirect, abort, jsonify
 from werkzeug.datastructures import FileStorage
 from werkzeug.utils import secure_filename
 
 from data import db_session
 from data.comments import Comment
 from data.users import User
+from data.game import Game
 from forms.finder_form import FindForm
 from forms.loginform import LoginForm
 from forms.redact_form import RedactForm
@@ -43,7 +44,7 @@ def home():
         elif 'find' in request.form:
             game_name = request.form['game_name']
             print(game_name)
-            return redirect('/registration_test')
+            return redirect('/game')
     return render_template('home.html', form=form)
 
 
@@ -181,6 +182,38 @@ def profile_redact():
             db_sess.commit()
             return redirect("/profile")
     return render_template('redact.html', title='Регистрация', form=form)
+
+
+
+# так называемый поиск
+@app.route('/game')
+def search():
+    try:
+        db_sess = db_session.create_session()
+        search_term = request.args.get('game_name', '').strip().lower()
+
+        if not search_term:
+            return render_template('game.html', error="Введите название игры")
+
+        games = db_sess.query(Game).filter(Game.name.ilike(f'%{search_term}%')).all()
+
+        if not games:
+            return render_template('game.html',
+                                   error=f"Игра '{search_term}' не найдена",
+                                   search_term=search_term)
+
+        main_game = games[0]
+        similar_games = games[1:] if len(games) > 1 else []
+
+        return render_template('game.html',
+                               main_game=main_game,
+                               similar_games=similar_games,
+                               search_term=search_term)
+
+    except Exception as e:
+        return render_template('game.html',
+                               error="Произошла ошибка при поиске")
+
 
 
 def main():
