@@ -245,7 +245,6 @@
             font-size: 0.9rem;
         }
 
-
     </style>
 </head>
 <body>
@@ -258,20 +257,14 @@
                 {{coms[2] |safe}}<br>
                 {{coms[1] |safe}}<br>
                 {{coms[3] |safe}}<br>
-                <a class="nav-button" href="/comment/{{coms[4]}}/{{coms[5]}}">Ответить</a>
+                <a class="nav-button" href="/comment/{{coms[0]}}/{{coms[5]}}/{{coms[8]}}">Ответить</a>
             </p>
                 <div>{{coms[7] |safe}}</div>
 
             {% endfor %}
-<!--        <p>{%for com in form%}-->
-<!--                <p style="margin-left: 50px;">-->
-<!--                Имя пользователя:{{com[2]}}<br>-->
-<!--                {{com[1]}}-->
 
-<!--                <a class="nav-button" href="/comment/{{com[4]}}/{{com[5]}}" >Ответить</a><br>-->
-<!--                Дата отправки: {{com[3]}}-->
-<!--                </p>-->
-<!--            {% endfor %}-->
+
+
 
         </p>
     </form>

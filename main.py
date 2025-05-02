@@ -123,7 +123,7 @@ def comments_list():
     coms = []
     for i in comments:
         user_name = db_sess.query(User).filter(User.id == i.user_id).first()
-        coms.append([i.id, i.text, user_name.name, i.data, i.reply_id, i.game_id, 0, get_comment_rec(db_sess, i.id, 1)])
+        coms.append([i.id, i.text, user_name.name, i.data, i.reply_id, i.game_id, 0, get_comment_rec(db_sess, i.id, 1), i.user_id])
     return render_template('comments_list_test.html', title= 'Комменты', form= coms)
 
 
@@ -142,7 +142,7 @@ def get_comment_rec(db_sess, id_parent, level=0):
                 Имя пользователя:{user_name.name}<br>
                 Комментарий:{i.text}<br>
                 Дата отправки:{i.data}<br>
-                <a class="nav-button" href="/comment/{i.id}/{i.game_id}">Ответить</a>
+                <a class="nav-button" href="/comment/{i.id}/{i.game_id}/{i.user_id}">Ответить</a>
 
                 </p>
             </p>
@@ -156,13 +156,20 @@ def get_comment_rec(db_sess, id_parent, level=0):
 
 
 
-@app.route('/comment/<int:reply_id>/<int:game_id>', methods=['GET', 'POST'])
-def comment(reply_id,game_id):
+@app.route('/comment/<int:reply_id>/<int:game_id>/<int:user_id>', methods=['GET', 'POST'])
+def comment(reply_id,game_id, user_id):
     form = CommentForm()
     if form.validate_on_submit():
-        print(request.form.get('text'))
-
-        return redirect('/')
+        print(reply_id)
+        com = Comment()
+        com.text = request.form.get('text')
+        com.user_id = user_id
+        com.game_id = game_id
+        com.reply_id = reply_id
+        db_sess = db_session.create_session()
+        db_sess.add(com)
+        db_sess.commit()
+        return redirect('/comments_list')
     return render_template('LeaveComment.html', title='Комментарий', form=form, reply_id = reply_id,game_id=game_id )
 
 
