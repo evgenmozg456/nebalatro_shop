@@ -4,28 +4,22 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="a38f6138-c130-4457-8fe9-56839e310b93" name="Changes" comment="редактирование профиля, загрузка аватарок">
-      <change afterPath="$PROJECT_DIR$/forms/finder_form.py" afterDir="false" />
+    <list default="true" id="31a665e1-9033-4f2c-98e3-3c5b7cb86b21" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/.idea/projecttimatunkick.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/modules.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/modules.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/all_models.py" beforeDir="false" afterPath="$PROJECT_DIR$/data/all_models.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/comments.py" beforeDir="false" afterPath="$PROJECT_DIR$/data/comments.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/db/nebalatro.db" beforeDir="false" afterPath="$PROJECT_DIR$/db/nebalatro.db" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/main.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/templates/home.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/home.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/testing_login.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/testing_login.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/templates/profile.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/profile.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/templates/redact.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/redact.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/templates/testing_reg.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/testing_reg.html" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
-  </component>
-  <component name="FileTemplateManagerImpl">
-    <option name="RECENT_TEMPLATES">
-      <list>
-        <option value="HTML File" />
-        <option value="Python Script" />
-      </list>
-    </option>
   </component>
   <component name="Git.Settings">
     <option name="RECENT_BRANCH_BY_REPOSITORY">
@@ -39,9 +33,9 @@
     <option name="stateVersion" value="1" />
   </component>
   <component name="ProjectColorInfo">{
-  &quot;associatedIndex&quot;: 3
+  &quot;associatedIndex&quot;: 0
 }</component>
-  <component name="ProjectId" id="2vQxGVh34h3mCjWwTxnghN3STTA" />
+  <component name="ProjectId" id="2wZK63lNzrhXb3KLDBTrfNm7efE" />
   <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
@@ -49,28 +43,12 @@
   </component>
   <component name="PropertiesComponent"><![CDATA[{
   "keyToString": {
-    "DefaultHtmlFileTemplate": "HTML File",
-    "Python.all_models.executor": "Run",
-    "Python.loginform.executor": "Run",
     "Python.main.executor": "Run",
-    "Python.redact_form.executor": "Run",
-    "Python.test.executor": "Run",
-    "Python.users.executor": "Run",
     "RunOnceActivity.OpenProjectViewOnStart": "true",
     "RunOnceActivity.ShowReadmeOnStart": "true",
-    "git-widget-placeholder": "64c4ebd9",
-    "last_opened_file_path": "C:/Users/Admin/PycharmProjects/WEBproject/templates"
+    "git-widget-placeholder": "e4942051"
   }
 }]]></component>
-  <component name="RecentsManager">
-    <key name="CopyFile.RECENT_KEYS">
-      <recent name="C:\Users\Admin\PycharmProjects\WEBproject\templates" />
-      <recent name="C:\Users\Admin\PycharmProjects\WEBproject\static" />
-    </key>
-    <key name="MoveFile.RECENT_KEYS">
-      <recent name="C:\Users\Admin\PycharmProjects\WEBproject\static" />
-    </key>
-  </component>
   <component name="SharedIndexes">
     <attachedChunks>
       <set>
@@ -81,69 +59,12 @@
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="TaskManager">
     <task active="true" id="Default" summary="Default task">
-      <changelist id="a38f6138-c130-4457-8fe9-56839e310b93" name="Changes" comment="" />
-      <created>1744091003561</created>
+      <changelist id="31a665e1-9033-4f2c-98e3-3c5b7cb86b21" name="Changes" comment="" />
+      <created>1746243476957</created>
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
-      <updated>1744091003561</updated>
+      <updated>1746243476957</updated>
     </task>
-    <task id="LOCAL-00001" summary="много новых шаблонов и страниц">
-      <option name="closed" value="true" />
-      <created>1744432323132</created>
-      <option name="number" value="00001" />
-      <option name="presentableId" value="LOCAL-00001" />
-      <option name="project" value="LOCAL" />
-      <updated>1744432323132</updated>
-    </task>
-    <task id="LOCAL-00002" summary="регистрация и авторизация">
-      <option name="closed" value="true" />
-      <created>1745667658423</created>
-      <option name="number" value="00002" />
-      <option name="presentableId" value="LOCAL-00002" />
-      <option name="project" value="LOCAL" />
-      <updated>1745667658423</updated>
-    </task>
-    <task id="LOCAL-00003" summary="исправление главного шаблона">
-      <option name="closed" value="true" />
-      <created>1745809376728</created>
-      <option name="number" value="00003" />
-      <option name="presentableId" value="LOCAL-00003" />
-      <option name="project" value="LOCAL" />
-      <updated>1745809376728</updated>
-    </task>
-    <task id="LOCAL-00004" summary="добавлена кнопка выхода из аккаунта">
-      <option name="closed" value="true" />
-      <created>1745810418700</created>
-      <option name="number" value="00004" />
-      <option name="presentableId" value="LOCAL-00004" />
-      <option name="project" value="LOCAL" />
-      <updated>1745810418700</updated>
-    </task>
-    <task id="LOCAL-00005" summary="добавлены кнопки ссылки и скелет страницы профиля">
-      <option name="closed" value="true" />
-      <created>1745814754486</created>
-      <option name="number" value="00005" />
-      <option name="presentableId" value="LOCAL-00005" />
-      <option name="project" value="LOCAL" />
-      <updated>1745814754486</updated>
-    </task>
-    <task id="LOCAL-00006" summary="редактирование профиля, загрузка аватарок">
-      <option name="closed" value="true" />
-      <created>1745913047721</created>
-      <option name="number" value="00006" />
-      <option name="presentableId" value="LOCAL-00006" />
-      <option name="project" value="LOCAL" />
-      <updated>1745913047721</updated>
-    </task>
-    <task id="LOCAL-00007" summary="редактирование профиля, загрузка аватарок">
-      <option name="closed" value="true" />
-      <created>1745913077230</created>
-      <option name="number" value="00007" />
-      <option name="presentableId" value="LOCAL-00007" />
-      <option name="project" value="LOCAL" />
-      <updated>1745913077230</updated>
-    </task>
-    <option name="localTasksCounter" value="8" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -156,14 +77,5 @@
         </entry>
       </map>
     </option>
-  </component>
-  <component name="VcsManagerConfiguration">
-    <MESSAGE value="много новых шаблонов и страниц" />
-    <MESSAGE value="регистрация и авторизация" />
-    <MESSAGE value="исправление главного шаблона" />
-    <MESSAGE value="добавлена кнопка выхода из аккаунта" />
-    <MESSAGE value="добавлены кнопки ссылки и скелет страницы профиля" />
-    <MESSAGE value="редактирование профиля, загрузка аватарок" />
-    <option name="LAST_COMMIT_MESSAGE" value="редактирование профиля, загрузка аватарок" />
   </component>
 </project>

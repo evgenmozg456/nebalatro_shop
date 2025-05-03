@@ -1,7 +1,7 @@
 import os
 
 import flask_login
-from flask import Flask, render_template, request, redirect, abort, jsonify
+from flask import Flask, render_template, request, redirect, abort, jsonify, make_response
 from werkzeug.datastructures import FileStorage
 from werkzeug.utils import secure_filename
 
@@ -23,6 +23,7 @@ app.config['UPLOAD_FOLDER'] = 'static'
 csrf = CSRFProtect(app)
 login_manager = LoginManager()
 login_manager.init_app(app)
+
 
 
 @login_manager.user_loader
@@ -108,7 +109,8 @@ def profile():
     cur_user = flask_login.current_user
     if current_user.is_authenticated:
         return render_template('profile.html',
-                               created_date=cur_user.created_date, name=cur_user.name, about=cur_user.about)
+                               created_date=cur_user.created_date, name=cur_user.name,
+                               about=cur_user.about, user_id=cur_user.id)
 
 
 @app.route('/logout')
@@ -117,6 +119,7 @@ def logout():
     logout_user()
     return redirect("/")
 
+
 @app.route('/comments_list', methods=['GET', 'POST'])
 def comments_list():
     db_sess = db_session.create_session()
@@ -124,8 +127,9 @@ def comments_list():
     coms = []
     for i in comments:
         user_name = db_sess.query(User).filter(User.id == i.user_id).first()
-        coms.append([i.id, i.text, user_name.name, i.data, i.reply_id, i.game_id, 0, get_comment_rec(db_sess, i.id, 1), i.user_id])
-    return render_template('comments_list_test.html', title= 'Комменты', form= coms)
+        coms.append([i.id, i.text, user_name.name, i.data, i.reply_id, i.game_id, 0, get_comment_rec(db_sess, i.id, 1),
+                     i.user_id])
+    return render_template('comments_list_test.html', title='Комменты', form=coms)
 
 
 def get_comment_rec(db_sess, id_parent, level=0):
@@ -139,7 +143,7 @@ def get_comment_rec(db_sess, id_parent, level=0):
             user_name = db_sess.query(User).filter(User.id == i.user_id).first()
             s = f"""
             <p>
-                <p style="margin-left: {50*level}px; border:5px; border-style:inset; border-color:pink; padding: 1em; border-radius: 30px;">
+                <p style="margin-left: {50 * level}px; border:5px; border-style:inset; border-color:pink; padding: 1em; border-radius: 30px;">
                 Имя пользователя:{user_name.name}<br>
                 Комментарий:{i.text}<br>
                 Дата отправки:{i.data}<br>
@@ -150,15 +154,13 @@ def get_comment_rec(db_sess, id_parent, level=0):
             """
             coms += s
             if i.reply_id != 0:
-                coms+= get_comment_rec(db_sess, i.id, level+1)
+                coms += get_comment_rec(db_sess, i.id, level + 1)
             # coms.append([i.id, i.text, user_name.name, i.data, i.reply_id, i.game_id, level+1, get_comment_rec(session, i.id, level+1)])
         return coms
 
 
-
-
 @app.route('/comment/<int:reply_id>/<int:game_id>/<int:user_id>', methods=['GET', 'POST'])
-def comment(reply_id,game_id, user_id):
+def comment(reply_id, game_id, user_id):
     form = CommentForm()
     if form.validate_on_submit():
         print(reply_id)
@@ -171,7 +173,7 @@ def comment(reply_id,game_id, user_id):
         db_sess.add(com)
         db_sess.commit()
         return redirect('/comments_list')
-    return render_template('LeaveComment.html', title='Комментарий', form=form, reply_id = reply_id,game_id=game_id )
+    return render_template('LeaveComment.html', title='Комментарий', form=form, reply_id=reply_id, game_id=game_id)
 
 
 @app.route('/profile_redact', methods=['GET', 'POST'])
@@ -180,9 +182,7 @@ def profile_redact():
     cur_user = flask_login.current_user
     db_sess = db_session.create_session()
     if form.validate_on_submit():
-
         user = db_sess.query(User).filter(User.id == cur_user.id).first()
-
         if user:
             file_path = os.path.join(app.config['UPLOAD_FOLDER'], str(user.id) + ".jpg")
             form.avatar.data.save(file_path)
@@ -191,7 +191,6 @@ def profile_redact():
             db_sess.commit()
             return redirect("/profile")
     return render_template('redact.html', title='Регистрация', form=form)
-
 
 
 # так называемый поиск
@@ -227,7 +226,6 @@ def search():
         print(f'Ошибка при поиске: {str(e)}')
         return render_template('game.html',
                                error=f"Произошла ошибка при поиске: {str(e)}")
-
 
 
 def main():
