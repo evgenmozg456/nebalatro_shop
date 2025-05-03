@@ -281,7 +281,7 @@
             <div class="search-container">
                 <div class="search-prompt">ВВЕДИТЕ НАЗВАНИЕ ИГРЫ</div>
                 <div class="search-box">
-                    <form method="POST">
+                    <form method="GET" action="/game">
                         <input type="text" name="game_name" class="search-input" placeholder="Например: Poker Royale">
                         <div class="search-icon">♠</div>
                         {{ form.hidden_tag() }}

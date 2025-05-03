@@ -43,7 +43,7 @@ def home():
             return redirect('/about')
         elif 'find' in request.form:
             game_name = request.form['game_name']
-            print(game_name)
+            # print(game_name)
             return redirect('/game')
     return render_template('home.html', form=form)
 
@@ -186,16 +186,20 @@ def profile_redact():
 
 
 # так называемый поиск
-@app.route('/game')
+# Инициализацию БД лучше вынести в отдельный модуль или выполнять при старте приложения
+# db_session.global_init("db/nebalatro.db")
+
+@app.route('/game', methods=['GET', 'POST'])
 def search():
     try:
         db_sess = db_session.create_session()
-        search_term = request.args.get('game_name', '').strip().lower()
+        search_term = request.args.get('game_name', '').strip()
 
         if not search_term:
             return render_template('game.html', error="Введите название игры")
 
         games = db_sess.query(Game).filter(Game.name.ilike(f'%{search_term}%')).all()
+        print(games)
 
         if not games:
             return render_template('game.html',
@@ -211,8 +215,9 @@ def search():
                                search_term=search_term)
 
     except Exception as e:
+        print(f'Ошибка при поиске: {str(e)}')
         return render_template('game.html',
-                               error="Произошла ошибка при поиске")
+                               error=f"Произошла ошибка при поиске: {str(e)}")
 
 
 
