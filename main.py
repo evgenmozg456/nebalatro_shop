@@ -195,8 +195,6 @@ def profile_redact():
 
 
 # так называемый поиск
-# Инициализацию БД лучше вынести в отдельный модуль или выполнять при старте приложения
-# db_session.global_init("db/nebalatro.db")
 
 @app.route('/game', methods=['GET', 'POST'])
 def search():
