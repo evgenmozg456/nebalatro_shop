@@ -53,6 +53,12 @@ def kick_timatun():
     return render_template('kick_timatun.html')
 
 
+@app.route('/game/<game_id>')
+def game_card(game_id):
+    db_sess = db_session.create_session()
+    game = db_sess.query(Game).filter(Game.id == game_id).first()
+    return render_template('game_card.html', game=game)
+
 @app.route('/signin')
 def sign_in():
     return render_template('sign_in.html')
