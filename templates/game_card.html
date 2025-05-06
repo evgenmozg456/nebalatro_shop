@@ -1,0 +1,397 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BALATRO | NEBALATRO</title>
+    <style>
+        :root {
+            --main-bg: #0a0a12;
+            --card-bg: #1a1a2a;
+            --accent: #d4af37;
+            --text: #e8e1d5;
+            --highlight: #ff5555;
+            --button-bg: #2a2a3a;
+            --button-hover: #3a3a4a;
+            --chip-red: #e74c3c;
+            --chip-blue: #3498db;
+            --chip-green: #2ecc71;
+        }
+
+        body {
+            background-color: var(--main-bg);
+            color: var(--text);
+            font-family: 'Courier New', monospace;
+            margin: 0;
+            padding: 0;
+            background-image:
+                radial-gradient(circle at 20% 30%, #2a1a3a 0%, transparent 30%),
+                radial-gradient(circle at 80% 70%, #1a2a3a 0%, transparent 30%),
+                linear-gradient(to bottom, #0a0a12, #1a1a2a);
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 0;
+            margin-bottom: 40px;
+        }
+
+        .logo {
+            font-size: 2.5rem;
+            font-weight: bold;
+            color: var(--accent);
+            text-shadow:
+                0 0 5px #fff,
+                0 0 10px var(--accent),
+                0 0 20px var(--highlight);
+            animation: neonGlow 1.5s ease-in-out infinite alternate;
+            position: relative;
+        }
+
+        .logo::after {
+            content: "";
+            position: absolute;
+            bottom: -10px;
+            left: 0;
+            width: 100%;
+            height: 2px;
+            background: linear-gradient(90deg, transparent, var(--accent), transparent);
+        }
+
+        @keyframes neonGlow {
+            from {
+                text-shadow:
+                    0 0 5px #fff,
+                    0 0 10px var(--accent),
+                    0 0 20px var(--highlight);
+            }
+            to {
+                text-shadow:
+                    0 0 10px #fff,
+                    0 0 20px var(--accent),
+                    0 0 30px var(--highlight),
+                    0 0 40px var(--highlight);
+            }
+        }
+
+        .nav-button {
+            color: var(--accent);
+            text-decoration: none;
+            font-weight: bold;
+            padding: 8px 15px;
+            border: 1px solid var(--accent);
+            border-radius: 20px;
+            transition: all 0.3s;
+            background: rgba(42, 42, 58, 0.5);
+        }
+
+        .nav-button:hover {
+            background-color: var(--accent);
+            color: var(--main-bg);
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(212, 175, 55, 0.3);
+        }
+
+        .game-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            flex-grow: 1;
+            padding: 0 20px 40px;
+            position: relative;
+        }
+
+        .game-card {
+            background-color: var(--card-bg);
+            border: 3px solid var(--accent);
+            border-radius: 15px;
+            padding: 40px;
+            width: 100%;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+            position: relative;
+            overflow: hidden;
+            z-index: 2;
+        }
+
+        .game-card::before {
+            content: "";
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(212,175,55,0.1) 0%, transparent 70%);
+            z-index: -1;
+        }
+
+        .game-title {
+            font-size: 3rem;
+            color: var(--accent);
+            text-align: center;
+            margin-bottom: 10px;
+            text-transform: uppercase;
+            letter-spacing: 3px;
+            text-shadow: 0 0 15px rgba(212, 175, 55, 0.5);
+        }
+
+        .game-subtitle {
+            text-align: center;
+            margin-bottom: 40px;
+            font-size: 1.2rem;
+            color: var(--text);
+            opacity: 0.8;
+        }
+
+        .game-video {
+            width: 100%;
+            max-width: 800px;
+            height: 450px;
+            margin: 0 auto 40px;
+            border: 3px solid var(--accent);
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.5);
+        }
+
+        .game-video iframe {
+            width: 100%;
+            height: 100%;
+            border: none;
+        }
+
+        .game-content {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 40px;
+        }
+
+        .game-description {
+            line-height: 1.8;
+            font-size: 1.1rem;
+        }
+
+        .game-info {
+            background-color: rgba(42, 42, 58, 0.5);
+            border: 2px solid var(--accent);
+            border-radius: 10px;
+            padding: 25px;
+        }
+
+        .info-item {
+            margin-bottom: 20px;
+            border-bottom: 1px dashed rgba(212, 175, 55, 0.3);
+            padding-bottom: 15px;
+        }
+
+        .info-item:last-child {
+            border-bottom: none;
+            margin-bottom: 0;
+            padding-bottom: 0;
+        }
+
+        .info-label {
+            color: var(--accent);
+            font-weight: bold;
+            margin-bottom: 5px;
+            font-size: 1.1rem;
+        }
+
+        .info-value {
+            font-size: 1rem;
+        }
+
+        .buy-button {
+            display: block;
+            width: 100%;
+            max-width: 300px;
+            margin: 40px auto 0;
+            padding: 15px;
+            background: linear-gradient(135deg, var(--accent), #e5c100);
+            color: var(--main-bg);
+            border: none;
+            border-radius: 8px;
+            font-family: inherit;
+            font-size: 1.2rem;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s;
+            text-align: center;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            box-shadow: 0 5px 15px rgba(212, 175, 55, 0.3);
+        }
+
+        .buy-button:hover {
+            background: linear-gradient(135deg, var(--highlight), #ff6b6b);
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(255, 85, 85, 0.4);
+        }
+
+        .floating-cards {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+            pointer-events: none;
+            z-index: 0;
+            overflow: hidden;
+        }
+
+        .floating-card {
+            position: absolute;
+            width: 80px;
+            height: 120px;
+            background-color: rgba(42, 42, 58, 0.3);
+            border: 2px solid var(--accent);
+            border-radius: 8px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 1.5rem;
+            color: var(--accent);
+            opacity: 0.3;
+            animation: floatCard 15s linear infinite;
+        }
+
+        .floating-card:nth-child(1) {
+            top: 10%;
+            left: 5%;
+            animation-delay: 0s;
+        }
+
+        .floating-card:nth-child(2) {
+            top: 30%;
+            right: 8%;
+            animation-delay: 3s;
+            animation-duration: 18s;
+        }
+
+        .floating-card:nth-child(3) {
+            bottom: 20%;
+            left: 15%;
+            animation-delay: 6s;
+            animation-duration: 20s;
+        }
+
+        @keyframes floatCard {
+            0% { transform: translateY(0) rotate(0deg); }
+            50% { transform: translateY(-50px) rotate(10deg); }
+            100% { transform: translateY(0) rotate(0deg); }
+        }
+
+        footer {
+            border-top: 2px solid var(--accent);
+            padding-top: 20px;
+            text-align: center;
+            margin-top: 40px;
+            font-size: 0.9rem;
+        }
+
+        @media (max-width: 900px) {
+            .game-content {
+                grid-template-columns: 1fr;
+            }
+
+            .game-title {
+                font-size: 2.2rem;
+            }
+
+            .game-video {
+                height: 350px;
+            }
+        }
+
+        @media (max-width: 600px) {
+            .game-card {
+                padding: 25px;
+            }
+
+            .game-title {
+                font-size: 1.8rem;
+            }
+
+            .game-video {
+                height: 250px;
+                margin-bottom: 30px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <div class="logo">NEBALATRO</div>
+            <a href="#" class="nav-button">Каталог игр</a>
+        </header>
+
+        <main class="game-container">
+            <!-- Плавающие карты на заднем фоне -->
+            <div class="floating-cards">
+                <div class="floating-card">A</div>
+                <div class="floating-card">K</div>
+                <div class="floating-card">Q</div>
+            </div>
+
+            <div class="game-card">
+                <h1 class="game-title">BALATRO</h1>
+                <p class="game-subtitle">Покер. Рогалик. Безумие.</p>
+
+                <div class="game-video">
+                    <iframe src="https://www.youtube.com/embed/dQw4w9WgXcQ" title="BALATRO Gameplay Trailer" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                </div>
+
+                <div class="game-content">
+                    <div class="game-description">
+                        <p>BALATRO - это гипнотизирующий покерный рогалик, в котором вы создаёте мощные синергии, собираетесь редкие джокеры и пытаетесь пройти все анте.</p>
+                        <p>Игра сочетает стратегическую глубину покера с элементами roguelike, предлагая уникальный игровой опыт, где каждая партия непредсказуема.</p>
+                        <p>Собирайте колоду, находите мощные комбинации и используйте специальные джокеры, которые кардинально меняют правила игры. Преодолейте 8 уровней сложности, каждый со своими уникальными модификаторами и испытаниями.</p>
+                        <p>BALATRO - это не просто покер, это психоделическое путешествие в мир карточного безумия, где ваши навыки и удача будут проверены на прочность.</p>
+                    </div>
+
+                    <div class="game-info">
+                        <div class="info-item">
+                            <div class="info-label">Жанр</div>
+                            <div class="info-value">Покерный рогалик, Карточная игра</div>
+                        </div>
+                        <div class="info-item">
+                            <div class="info-label">Дата выхода</div>
+                            <div class="info-value">20 февраля 2024</div>
+                        </div>
+                        <div class="info-item">
+                            <div class="info-label">Разработчик</div>
+                            <div class="info-value">LocalThunk</div>
+                        </div>
+                        <div class="info-item">
+                            <div class="info-label">Издатель</div>
+                            <div class="info-value">Playstack</div>
+                        </div>
+                        <div class="info-item">
+                            <div class="info-label">Платформы</div>
+                            <div class="info-value">PC, Nintendo Switch, PlayStation, Xbox</div>
+                        </div>
+                    </div>
+                </div>
+
+                <button class="buy-button">Купить $14.99</button>
+            </div>
+        </main>
+
+        <footer>
+            <p>© 2023 NEBALATRO. Все права защищены.</p>
+            <p>Погрузитесь в мир азартных приключений</p>
+        </footer>
+    </div>
+</body>
+</html>

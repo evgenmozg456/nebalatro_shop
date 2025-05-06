@@ -35,13 +35,13 @@ def load_user(user_id):
 def home():
     form = FindForm()
     if request.method == 'POST':
-        if 'button_reg' in request.form:
-            return redirect('/registration_test')
-        elif 'button_sign' in request.form:
-            return redirect('/login')
-        elif 'button_about' in request.form:
-            return redirect('/about')
-        elif 'find' in request.form:
+        # if 'button_reg' in request.form:
+        #     return redirect('/registration_test')
+        # elif 'button_sign' in request.form:
+        #     return redirect('/login')
+        # elif 'button_about' in request.form:
+        #     return redirect('/about')
+        if 'find' in request.form:
             game_name = request.form['game_name']
             # print(game_name)
             return redirect('/game')
@@ -51,6 +51,14 @@ def home():
 @app.route('/kick_timatun')
 def kick_timatun():
     return render_template('kick_timatun.html')
+
+
+@app.route('/game/<game_id>')
+def game_card(game_id):
+    db_sess = db_session.create_session()
+    game = db_sess.query(Game).filter(Game.id == game_id).first()
+    print(game.id)
+    return render_template('game_card.html', game=game)
 
 
 @app.route('/signin')
@@ -123,7 +131,6 @@ def comments_list():
     db_sess = db_session.create_session()
     comments = db_sess.query(Comment).filter(Comment.reply_id == 0).all()
     coms = []
-
     for i in comments:
         user_name = db_sess.query(User).filter(User.id == i.user_id).first()
         coms.append([i.id, i.text, user_name.name, i.data, i.reply_id, i.game_id, 0, get_comment_rec(db_sess, i.id, 1),
@@ -133,27 +140,21 @@ def comments_list():
 
 def get_comment_rec(db_sess, id_parent, level=0):
     comments = db_sess.query(Comment).filter(Comment.reply_id == id_parent).all()
+
     if not comments:
         return ''
     else:
         coms = ''
         for i in comments:
-
             user_name = db_sess.query(User).filter(User.id == i.user_id).first()
             s = f"""
             <p>
                 <p style="margin-left: {50 * level}px; border:5px; border-style:inset; border-color:pink; padding: 1em; border-radius: 30px;">
                 Имя пользователя:{user_name.name}<br>
                 Комментарий:{i.text}<br>
-                Дата: {i.data.strftime("%d.%m.%Y %H:%M")}<br>
-                <a class="nav-button" href="/comment/{i.id}/{i.game_id}">Ответить</a>
-                <div class="like-wrapper">
-                    <button class="like-btn" onclick="toggleLike(this)" style="margin-left: {50 * level}px;">
-                        <svg class="like-icon" viewBox="0 0 24 24">
-                            <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/>
-                        </svg>
-                        0
-                    </button>
+                Дата отправки:{i.data}<br>
+                <a class="nav-button" href="/comment/{i.id}/{i.game_id}/{i.user_id}">Ответить</a>
+
                 </p>
             </p>
             """
@@ -164,20 +165,17 @@ def get_comment_rec(db_sess, id_parent, level=0):
         return coms
 
 
-@app.route('/comment/<int:reply_id>/<int:game_id>', methods=['GET', 'POST'])
-def comment(reply_id, game_id):
+@app.route('/comment/<int:reply_id>/<int:game_id>/<int:user_id>', methods=['GET', 'POST'])
+def comment(reply_id, game_id, user_id):
     form = CommentForm()
     if form.validate_on_submit():
-        # Находим id юзера, который оставляет ком, по имени
-        db_sess = db_session.create_session()
-        cur_user = flask_login.current_user
-        user_name = db_sess.query(User).filter(User.name == cur_user.name).first()
-
+        print(reply_id)
         com = Comment()
         com.text = request.form.get('text')
-        com.user_id = user_name.id
+        com.user_id = user_id
         com.game_id = game_id
         com.reply_id = reply_id
+        db_sess = db_session.create_session()
         db_sess.add(com)
         db_sess.commit()
         return redirect('/comments_list')
@@ -224,6 +222,10 @@ def search():
 
         main_game = games[0]
         similar_games = games[1:] if len(games) > 1 else []
+
+        if request.method == 'POST':
+            button_value = request.form.get('btn_find_game')
+            return redirect(f'/game/{button_value}')
 
         return render_template('game.html',
                                main_game=main_game,
