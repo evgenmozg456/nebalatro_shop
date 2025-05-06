@@ -244,6 +244,41 @@
             margin-top: 40px;
             font-size: 0.9rem;
         }
+<!--123213-->
+        .like-container {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .like-btn {
+            background: none;
+            border: none;
+            cursor: pointer;
+            font-size: 16px;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            padding: 5px 10px;
+            border-radius: 20px;
+            background-color: #f0f0f0;
+        }
+
+        .like-icon {
+            width: 20px;
+            height: 20px;
+            fill: #666;
+            transition: all 0.3s;
+        }
+
+        .like-btn.liked .like-icon {
+            fill: #ff3252;
+        }
+
+        .like-count {
+            font-size: 14px;
+            color: #666;
+        }
 
     </style>
 </head>
@@ -256,17 +291,26 @@
             <p style="border:5px; border-style:inset; border-color:pink; padding: 1em; border-radius: 30px;">
                 {{coms[2] |safe}}<br>
                 {{coms[1] |safe}}<br>
-                {{coms[3] |safe}}<br>
-                <a class="nav-button" href="/comment/{{coms[0]}}/{{coms[5]}}/{{coms[8]}}">Ответить</a>
+                Дата: {{coms[3].strftime("%d.%m.%Y %H:%M") |safe}}<br>
+                <a class="nav-button" href="/comment/{{coms[0]}}/{{coms[5]}}">Ответить</a>
+                <div class="like-wrapper">
+                    <button class="like-btn" onclick="toggleLike(this)">
+                        <svg class="like-icon" viewBox="0 0 24 24">
+                            <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/>
+                        </svg>
+                        0
+                    </button>
+                </div>
+
+
+
             </p>
                 <div>{{coms[7] |safe}}</div>
 
             {% endfor %}
-
-
-
-
         </p>
+
     </form>
+
 </body>
 </html>
