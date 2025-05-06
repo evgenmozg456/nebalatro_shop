@@ -3,7 +3,6 @@ from sqlalchemy_serializer import *
 from data.db_session import SqlAlchemyBase
 
 
-
 class Game(SqlAlchemyBase, SerializerMixin):
     __tablename__ = 'games'
     id = sqlalchemy.Column(sqlalchemy.Integer, primary_key=True)
