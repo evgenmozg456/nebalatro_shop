@@ -117,61 +117,71 @@ def logout():
     logout_user()
     return redirect("/")
 
+
 @app.route('/comments_list', methods=['GET', 'POST'])
 def comments_list():
     db_sess = db_session.create_session()
     comments = db_sess.query(Comment).filter(Comment.reply_id == 0).all()
     coms = []
+
     for i in comments:
         user_name = db_sess.query(User).filter(User.id == i.user_id).first()
-        coms.append([i.id, i.text, user_name.name, i.data, i.reply_id, i.game_id, 0, get_comment_rec(db_sess, i.id, 1), i.user_id])
-    return render_template('comments_list_test.html', title= 'Комменты', form= coms)
+        coms.append([i.id, i.text, user_name.name, i.data, i.reply_id, i.game_id, 0, get_comment_rec(db_sess, i.id, 1),
+                     i.user_id])
+    return render_template('comments_list_test.html', title='Комменты', form=coms)
 
 
 def get_comment_rec(db_sess, id_parent, level=0):
     comments = db_sess.query(Comment).filter(Comment.reply_id == id_parent).all()
-
     if not comments:
         return ''
     else:
         coms = ''
         for i in comments:
+
             user_name = db_sess.query(User).filter(User.id == i.user_id).first()
             s = f"""
             <p>
-                <p style="margin-left: {50*level}px; border:5px; border-style:inset; border-color:pink; padding: 1em; border-radius: 30px;">
+                <p style="margin-left: {50 * level}px; border:5px; border-style:inset; border-color:pink; padding: 1em; border-radius: 30px;">
                 Имя пользователя:{user_name.name}<br>
                 Комментарий:{i.text}<br>
-                Дата отправки:{i.data}<br>
-                <a class="nav-button" href="/comment/{i.id}/{i.game_id}/{i.user_id}">Ответить</a>
-
+                Дата: {i.data.strftime("%d.%m.%Y %H:%M")}<br>
+                <a class="nav-button" href="/comment/{i.id}/{i.game_id}">Ответить</a>
+                <div class="like-wrapper">
+                    <button class="like-btn" onclick="toggleLike(this)" style="margin-left: {50 * level}px;">
+                        <svg class="like-icon" viewBox="0 0 24 24">
+                            <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/>
+                        </svg>
+                        0
+                    </button>
                 </p>
             </p>
             """
             coms += s
             if i.reply_id != 0:
-                coms+= get_comment_rec(db_sess, i.id, level+1)
+                coms += get_comment_rec(db_sess, i.id, level + 1)
             # coms.append([i.id, i.text, user_name.name, i.data, i.reply_id, i.game_id, level+1, get_comment_rec(session, i.id, level+1)])
         return coms
 
 
-
-
-@app.route('/comment/<int:reply_id>/<int:game_id>/<int:user_id>', methods=['GET', 'POST'])
-def comment(reply_id,game_id, user_id):
+@app.route('/comment/<int:reply_id>/<int:game_id>', methods=['GET', 'POST'])
+def comment(reply_id, game_id):
     form = CommentForm()
     if form.validate_on_submit():
-        print(reply_id)
+        # Находим id юзера, который оставляет ком, по имени
+        db_sess = db_session.create_session()
+        cur_user = flask_login.current_user
+        user_name = db_sess.query(User).filter(User.name == cur_user.name).first()
+
         com = Comment()
         com.text = request.form.get('text')
-        com.user_id = user_id
+        com.user_id = user_name.id
         com.game_id = game_id
         com.reply_id = reply_id
-        db_sess = db_session.create_session()
         db_sess.add(com)
         db_sess.commit()
         return redirect('/comments_list')
-    return render_template('LeaveComment.html', title='Комментарий', form=form, reply_id = reply_id,game_id=game_id )
+    return render_template('LeaveComment.html', title='Комментарий', form=form, reply_id=reply_id, game_id=game_id)
 
 
 @app.route('/profile_redact', methods=['GET', 'POST'])
@@ -191,7 +201,6 @@ def profile_redact():
             db_sess.commit()
             return redirect("/profile")
     return render_template('redact.html', title='Регистрация', form=form)
-
 
 
 # так называемый поиск
@@ -225,7 +234,6 @@ def search():
         print(f'Ошибка при поиске: {str(e)}')
         return render_template('game.html',
                                error=f"Произошла ошибка при поиске: {str(e)}")
-
 
 
 def main():
