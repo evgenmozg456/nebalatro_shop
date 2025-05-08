@@ -254,7 +254,8 @@ def search():
         return render_template('game.html',
                                main_game=main_game,
                                similar_games=similar_games,
-                               search_term=search_term)
+                               search_term=search_term,
+                               game=games)
 
     except Exception as e:
         print(f'Ошибка при поиске: {str(e)}')
