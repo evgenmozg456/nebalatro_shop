@@ -124,6 +124,30 @@
             overflow: hidden;
             z-index: 2;
         }
+        .comments-button {
+            display: block;
+            width: 100%;
+            max-width: 300px;
+            margin: 20px auto 0;
+            padding: 12px;
+            background: linear-gradient(135deg, var(--chip-blue), #2980b9);
+            color: var(--text);
+            border: none;
+            border-radius: 8px;
+            font-family: inherit;
+            font-size: 1.1rem;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s;
+            text-align: center;
+            box-shadow: 0 5px 15px rgba(41, 128, 185, 0.3);
+        }
+
+        .comments-button:hover {
+            background: linear-gradient(135deg, var(--chip-green), #27ae60);
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(39, 174, 96, 0.4);
+        }
 
         .game-card::before {
             content: "";
@@ -510,9 +534,15 @@
                             ${{ "%.2f"|format(steam_data.price_overview.final / 100) }}
                         {% endif %}
                     </a>
-                {% endif %}
-            </div>
-        </main>
+
+                        <!-- Новая кнопка "Читать комментарии" -->
+                        <button id="show-comments" class="comments-button">
+                            Читать комментарии
+                        </button>
+                    {% endif %}
+                </div>
+            </main>
+
 
         <footer>
             <p>© 2023 NEBALATRO. Все права защищены.</p>
