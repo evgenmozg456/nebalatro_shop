@@ -4,7 +4,7 @@ import flask_login
 from flask import Flask, render_template, request, redirect, abort, jsonify
 from werkzeug.datastructures import FileStorage
 from werkzeug.utils import secure_filename
-
+import requests
 from data import db_session
 from data.comments import Comment
 from data.users import User
@@ -57,8 +57,33 @@ def kick_timatun():
 def game_card(game_id):
     db_sess = db_session.create_session()
     game = db_sess.query(Game).filter(Game.id == game_id).first()
-    print(game.id)
-    return render_template('game_card.html', game=game)
+    if not game:
+        abort(404)
+    steam_data = None
+    error = None
+
+    if game.steam_id:
+        try:
+            response = requests.get(
+                f'https://store.steampowered.com/api/appdetails?appids={game.steam_id}&l=russian',
+                headers={'Accept': 'application/json'}
+            )
+            data = response.json()
+
+            if data and data.get(str(game.steam_id), {}).get('success'):
+                steam_data = data[str(game.steam_id)]['data']
+            else:
+                error = "Данные игры не найдены в Steam"
+        except Exception as e:
+            error = f"Ошибка при загрузке данных из Steam: {str(e)}"
+
+    return render_template(
+        'game_card.html',
+        game=game,
+        steam_data=steam_data,
+        error=error
+    )
+
 
 
 @app.route('/signin')
@@ -213,7 +238,6 @@ def search():
             return render_template('game.html', error="Введите название игры")
 
         games = db_sess.query(Game).filter(Game.name.ilike(f'%{search_term}%')).all()
-        print(games)
 
         if not games:
             return render_template('game.html',

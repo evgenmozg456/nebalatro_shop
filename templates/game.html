@@ -94,6 +94,8 @@
             text-align: center;
             padding: 0 1rem;
             border-bottom: var(--pixel-border);
+            background-size: cover;
+            background-position: center;
         }
 
         .main-game {
@@ -231,6 +233,13 @@
         .pixel-corner-tr { top: -2px; right: -2px; }
         .pixel-corner-bl { bottom: -2px; left: -2px; }
         .pixel-corner-br { bottom: -2px; right: -2px; }
+
+        /* Стили для изображений Steam */
+        .steam-img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
     </style>
 </head>
 <body>
@@ -271,8 +280,8 @@
             <div class="pixel-corner pixel-corner-bl"></div>
             <div class="pixel-corner pixel-corner-br"></div>
             <div class="card game-card main-game">
-                <div class="game-img">
-                    {{ main_game.name }}
+                <div class="game-img" style="{% if main_game.steam_id %}background-image: url('https://cdn.cloudflare.steamstatic.com/steam/apps/{{ main_game.steam_id }}/header.jpg');{% endif %}">
+                    {% if not main_game.steam_id %}{{ main_game.name }}{% endif %}
                 </div>
                 <div class="card-body">
                     <h3 class="card-title glow-text">{{ main_game.name }}</h3>
@@ -305,8 +314,8 @@
             <div class="pixel-corner pixel-corner-bl"></div>
             <div class="pixel-corner pixel-corner-br"></div>
             <div class="card game-card h-100">
-                <div class="game-img">
-                    {{ game.name }}
+                <div class="game-img" style="{% if game.steam_id %}background-image: url('https://cdn.cloudflare.steamstatic.com/steam/apps/{{ game.steam_id }}/capsule_616x353.jpg');{% endif %}">
+                    {% if not game.steam_id %}{{ game.name }}{% endif %}
                 </div>
                 <div class="card-body">
                     <h5 class="card-title">{{ game.name }}</h5>
