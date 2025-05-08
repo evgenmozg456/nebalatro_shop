@@ -280,18 +280,23 @@
             <div class="pixel-corner pixel-corner-bl"></div>
             <div class="pixel-corner pixel-corner-br"></div>
             <div class="card game-card main-game">
-                <div class="game-img" style="{% if main_game.steam_id %}background-image: url('https://cdn.cloudflare.steamstatic.com/steam/apps/{{ main_game.steam_id }}/header.jpg');{% endif %}">
+                <div class="game-img"
+                     style="{% if main_game.steam_id %}background-image: url('https://cdn.cloudflare.steamstatic.com/steam/apps/{{ main_game.steam_id }}/header.jpg');{% endif %}">
                     {% if not main_game.steam_id %}{{ main_game.name }}{% endif %}
                 </div>
                 <div class="card-body">
                     <h3 class="card-title glow-text">{{ main_game.name }}</h3>
                     <div class="d-flex justify-content-center">
-                        <a href="#" class="btn btn-primary me-2">
-                            <i class="fas fa-play me-1"></i> ОБЗОР
-                        </a>
-                        <a href="#" class="btn btn-outline-primary">
-                            <i class="fas fa-plus me-1"></i> В корзину
-                        </a>
+                        <form method="POST">
+                            <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+                            <button name="btn_find_game"
+                                    value="{{main_game.id}}" class="btn-primary">Обзор
+                            </button>
+                        </form>
+<!--                        </a>-->
+<!--                        <a href="#" class="btn btn-outline-primary">-->
+<!--                            <i class="fas fa-plus me-1"></i> В корзину-->
+<!--                        </a>-->
                     </div>
                 </div>
             </div>
@@ -314,7 +319,8 @@
             <div class="pixel-corner pixel-corner-bl"></div>
             <div class="pixel-corner pixel-corner-br"></div>
             <div class="card game-card h-100">
-                <div class="game-img" style="{% if game.steam_id %}background-image: url('https://cdn.cloudflare.steamstatic.com/steam/apps/{{ game.steam_id }}/capsule_616x353.jpg');{% endif %}">
+                <div class="game-img"
+                     style="{% if game.steam_id %}background-image: url('https://cdn.cloudflare.steamstatic.com/steam/apps/{{ game.steam_id }}/capsule_616x353.jpg');{% endif %}">
                     {% if not game.steam_id %}{{ game.name }}{% endif %}
                 </div>
                 <div class="card-body">
