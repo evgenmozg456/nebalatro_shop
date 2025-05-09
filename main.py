@@ -283,7 +283,7 @@ def my_coms():
             game_name = db_sess.query(Game).filter(Game.id == i.game_id).first()
             user_coms.append([i.id, i.text, user_name.name, i.data, i.reply_id, i.game_id, 0,
                               i.user_id, i.like_count, com_liked, game_name.name])
-        return render_template('my_coms.html', title='Мои комментарии', form=user_coms, game_id=i.game_id)
+        return render_template('my_coms.html', title='Мои комментарии', form=user_coms)
 
 
 @app.route('/profile_redact', methods=['GET', 'POST'])
