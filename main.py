@@ -178,8 +178,6 @@ def comments_list(game_id):
                 likes.like_count = likes.like_count - 1
                 db_sess.commit()
 
-            counter += 1
-
     db_sess = db_session.create_session()
     comments = db_sess.query(Comment).filter(Comment.reply_id == 0).filter(Comment.game_id == game_id).all()
     coms = []
