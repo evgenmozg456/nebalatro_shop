@@ -280,37 +280,49 @@
             color: #666;
         }
 
+
     </style>
 </head>
 <body>
+<form action="" method="POST">
+    <input type="hidden" name="csrf_token" value="{{ csrf_token() }}"/>
+<!--    {{ form.csrf_token }}-->
+<div style="display: flex;">
     <h1>Список всех коментариев</h1>
-    <form action="" method="POST">
-        {{ form.csrf_token }}
-        <p>
-            {%for coms in form%}
-            <p style="border:5px; border-style:inset; border-color:pink; padding: 1em; border-radius: 30px;">
-                {{coms[2] |safe}}<br>
-                {{coms[1] |safe}}<br>
-                Дата: {{coms[3].strftime("%d.%m.%Y %H:%M") |safe}}<br>
-                <a class="nav-button" href="/comment/{{coms[0]}}/{{coms[5]}}">Ответить</a>
-                <div class="like-wrapper">
-                    <button class="like-btn" onclick="toggleLike(this)">
-                        <svg class="like-icon" viewBox="0 0 24 24">
-                            <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/>
-                        </svg>
-                        0
-                    </button>
-                </div>
+    <a class="nav-button" href="/game/{{game_id}}" style="margin-left: auto; margin-right: -700px; margin-top: auto; margin-top: 40px; border:5px; border-style:inset; border-color:pink; padding: 1em; border-radius: 30px;">
+        Назад
+    </a>
+    <a class="nav-button" href="/comment/0/{{game_id}}" style="margin-left: auto; margin-right: 20px; margin-top: auto; margin-top: 40px; border:5px; border-style:inset; border-color:pink; padding: 1em; border-radius: 30px;">
+        Оставить комментарий
+    </a>
 
 
+</div>
 
-            </p>
-                <div>{{coms[7] |safe}}</div>
+    <p>
+        {%for coms in form%}
+    <p style="border:5px; border-style:inset; border-color:pink; padding: 1em; border-radius: 30px;">
+        {{coms[2] |safe}}<br>
+        {{coms[1] |safe}}<br>
+        Дата: {{coms[3].strftime("%d.%m.%Y %H:%M") |safe}}<br>
+        <a class="nav-button" href="/comment/{{coms[0]}}/{{coms[5]}}">Ответить</a>
 
-            {% endfor %}
-        </p>
+    <div class="like-wrapper">
+        <button type="submit" value ="{{coms[0]}}" class="like-btn {% if coms[10] == True %}liked{% endif %}" name="like">
+            <svg class="like-icon" viewBox="0 0 24 24">
+                <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/>
+            </svg>
+            {{coms[9]}}
+        </button>
+    </div>
 
-    </form>
+
+    </p>
+    <div>{{coms[7] |safe}}</div>
+
+    {% endfor %}
+    </p>
+</form>
 
 </body>
 </html>
