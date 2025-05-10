@@ -395,12 +395,62 @@
             }
 
         }
+                        .nav-container {
+            display: flex;
+            gap: 20px;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        .nav-link {
+            color: var(--accent);
+            text-decoration: none;
+            font-weight: bold;
+            padding: 12px 25px;
+            border: 2px solid var(--accent);
+            border-radius: 30px;
+            transition: all 0.3s ease;
+            background-color: rgba(42, 42, 58, 0.5);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+        }
+
+        .nav-link:hover {
+            background-color: var(--accent);
+            color: var(--main-bg);
+            transform: translateY(-3px);
+            box-shadow: 0 6px 15px rgba(212, 175, 55, 0.4);
+        }
+
+        .nav-link:active {
+            transform: translateY(1px);
+        }
+
+        .nav-link::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(212,175,55,0.2) 0%, transparent 70%);
+            z-index: -1;
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+
+        .nav-link:hover::before {
+            opacity: 1;
     </style>
 </head>
 <body>
     <div class="container">
         <header>
             <div class="logo">NEBALATRO</div>
+            <a href="/game" class="nav-link">назад</a>
         </header>
 
         <main class="game-container">
@@ -529,7 +579,7 @@
 
         <footer>
             <p>© 2025 NEBALATRO. Все права защищены.</p>
-            <p>Погрузитесь в мир buh</p>
+            <p>Погрузитесь в мир игр</p>
         </footer>
     </div>
 </body>
