@@ -4,9 +4,9 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="a38f6138-c130-4457-8fe9-56839e310b93" name="Changes" comment="сервер">
+    <list default="true" id="a38f6138-c130-4457-8fe9-56839e310b93" name="Changes" comment="исправления">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/db/nebalatro.db" beforeDir="false" afterPath="$PROJECT_DIR$/db/nebalatro.db" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/server.py" beforeDir="false" afterPath="$PROJECT_DIR$/server.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -24,7 +24,7 @@
   <component name="Git.Settings">
     <option name="RECENT_BRANCH_BY_REPOSITORY">
       <map>
-        <entry key="$PROJECT_DIR$" value="f1fb5ec3eda28450de59bdc0b67b0ab5cd329c11" />
+        <entry key="$PROJECT_DIR$" value="c5f29276cace6b9b435b99d858abe749ef5e786d" />
       </map>
     </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
@@ -55,7 +55,7 @@
     "Python.users.executor": "Run",
     "RunOnceActivity.OpenProjectViewOnStart": "true",
     "RunOnceActivity.ShowReadmeOnStart": "true",
-    "git-widget-placeholder": "c61ef959",
+    "git-widget-placeholder": "a234ef21",
     "last_opened_file_path": "C:/Users/Admin/PycharmProjects/WEBproject/templates"
   }
 }]]></component>
@@ -334,7 +334,23 @@
       <option name="project" value="LOCAL" />
       <updated>1746862115011</updated>
     </task>
-    <option name="localTasksCounter" value="19" />
+    <task id="LOCAL-00019" summary="сервер2">
+      <option name="closed" value="true" />
+      <created>1746862410322</created>
+      <option name="number" value="00019" />
+      <option name="presentableId" value="LOCAL-00019" />
+      <option name="project" value="LOCAL" />
+      <updated>1746862410322</updated>
+    </task>
+    <task id="LOCAL-00020" summary="исправления">
+      <option name="closed" value="true" />
+      <created>1746881580531</created>
+      <option name="number" value="00020" />
+      <option name="presentableId" value="LOCAL-00020" />
+      <option name="project" value="LOCAL" />
+      <updated>1746881580531</updated>
+    </task>
+    <option name="localTasksCounter" value="21" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -348,7 +364,7 @@
                   <entry key="branch">
                     <value>
                       <list>
-                        <option value="origin/detached7" />
+                        <option value="origin/master" />
                       </list>
                     </value>
                   </entry>
@@ -377,6 +393,8 @@
     <MESSAGE value="окружение для хостинга" />
     <MESSAGE value="ещё изменения" />
     <MESSAGE value="сервер" />
-    <option name="LAST_COMMIT_MESSAGE" value="сервер" />
+    <MESSAGE value="сервер2" />
+    <MESSAGE value="исправления" />
+    <option name="LAST_COMMIT_MESSAGE" value="исправления" />
   </component>
 </project>
