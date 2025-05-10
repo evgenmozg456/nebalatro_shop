@@ -61,6 +61,7 @@ def game_card(game_id):
         abort(404)
     steam_data = None
     error = None
+    video = None
 
     if game.steam_id:
         try:
@@ -69,11 +70,14 @@ def game_card(game_id):
                 headers={'Accept': 'application/json'}
             )
             data = response.json()
+            video = data[str(game.steam_id)]['data']['movies'][0]['webm']['480']
 
             if data and data.get(str(game.steam_id), {}).get('success'):
                 steam_data = data[str(game.steam_id)]['data']
             else:
                 error = "Данные игры не найдены в Steam"
+
+
         except Exception as e:
             error = f"Ошибка при загрузке данных из Steam: {str(e)}"
 
@@ -81,7 +85,8 @@ def game_card(game_id):
         'game_card.html',
         game=game,
         steam_data=steam_data,
-        error=error
+        error=error,
+        video=video
     )
 
 
