@@ -224,9 +224,9 @@ def get_comment_rec(db_sess, id_parent, level=0):
             s = f"""
             <p>
                 <p style="margin-left: {50 * level}px; border:5px; border-style:inset; border-color:pink; padding: 1em; border-radius: 30px;">
-                Имя пользователя:{user_name.name}<br>
-                Комментарий:{i.text}<br>
-                Дата отправки:{i.data}<br>
+                Имя пользователя: {user_name.name}<br>
+                Комментарий: {i.text}<br>
+                Дата отправки: {i.data.strftime('%d.%m.%Y %H:%M')}<br>
                 <a class="nav-button" href="/comment/{i.id}/{i.game_id}">Ответить</a>
                 <div class="like-wrapper">
                     <button type="submit" class="like-btn {com_liked}" value = "{i.id}" name="like" style="margin-left: {50 * level}px;">
@@ -351,7 +351,8 @@ def search():
 
 def main():
     db_session.global_init("db/nebalatro.db")
-    app.run(debug=True)
+    port = int(os.environ.get("PORT", 5000))
+    app.run(host='0.0.0.0', port=port)
 
 
 if __name__ == '__main__':
