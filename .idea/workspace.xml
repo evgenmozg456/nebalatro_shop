@@ -4,13 +4,10 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="a38f6138-c130-4457-8fe9-56839e310b93" name="Changes" comment="окружение для хостинга">
+    <list default="true" id="a38f6138-c130-4457-8fe9-56839e310b93" name="Changes" comment="ещё изменения">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/db/nebalatro.db" beforeDir="false" afterPath="$PROJECT_DIR$/db/nebalatro.db" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/game.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/game.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/game_card.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/game_card.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/login.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/login.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/profile.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/profile.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/static/avatars/avatar_default.jpg" beforeDir="false" afterPath="$PROJECT_DIR$/static/avatar_default.jpg" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -45,23 +42,23 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;DefaultHtmlFileTemplate&quot;: &quot;HTML File&quot;,
-    &quot;Python.133.executor&quot;: &quot;Run&quot;,
-    &quot;Python.all_models.executor&quot;: &quot;Run&quot;,
-    &quot;Python.game.executor&quot;: &quot;Run&quot;,
-    &quot;Python.loginform.executor&quot;: &quot;Run&quot;,
-    &quot;Python.main.executor&quot;: &quot;Run&quot;,
-    &quot;Python.redact_form.executor&quot;: &quot;Run&quot;,
-    &quot;Python.test.executor&quot;: &quot;Run&quot;,
-    &quot;Python.users.executor&quot;: &quot;Run&quot;,
-    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;git-widget-placeholder&quot;: &quot;022f248e&quot;,
-    &quot;last_opened_file_path&quot;: &quot;C:/Users/Admin/PycharmProjects/WEBproject/templates&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "DefaultHtmlFileTemplate": "HTML File",
+    "Python.133.executor": "Run",
+    "Python.all_models.executor": "Run",
+    "Python.game.executor": "Run",
+    "Python.loginform.executor": "Run",
+    "Python.main.executor": "Run",
+    "Python.redact_form.executor": "Run",
+    "Python.test.executor": "Run",
+    "Python.users.executor": "Run",
+    "RunOnceActivity.OpenProjectViewOnStart": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "git-widget-placeholder": "46d4f3f0",
+    "last_opened_file_path": "C:/Users/Admin/PycharmProjects/WEBproject/templates"
   }
-}</component>
+}]]></component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
       <recent name="C:\Users\Admin\PycharmProjects\WEBproject\templates" />
@@ -321,7 +318,15 @@
       <option name="project" value="LOCAL" />
       <updated>1746848424861</updated>
     </task>
-    <option name="localTasksCounter" value="17" />
+    <task id="LOCAL-00017" summary="ещё изменения">
+      <option name="closed" value="true" />
+      <created>1746855834400</created>
+      <option name="number" value="00017" />
+      <option name="presentableId" value="LOCAL-00017" />
+      <option name="project" value="LOCAL" />
+      <updated>1746855834400</updated>
+    </task>
+    <option name="localTasksCounter" value="18" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -362,6 +367,7 @@
     <MESSAGE value="merge" />
     <MESSAGE value="больше доработок" />
     <MESSAGE value="окружение для хостинга" />
-    <option name="LAST_COMMIT_MESSAGE" value="окружение для хостинга" />
+    <MESSAGE value="ещё изменения" />
+    <option name="LAST_COMMIT_MESSAGE" value="ещё изменения" />
   </component>
 </project>
