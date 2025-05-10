@@ -19,7 +19,7 @@ from flask_login import LoginManager, login_user, logout_user, login_required, c
 
 app = Flask(__name__)
 app.config['SECRET_KEY'] = 'yandexlyceum_secret_key'
-app.config['UPLOAD_FOLDER'] = 'static'
+app.config['UPLOAD_FOLDER'] = 'static/avatars'
 csrf = CSRFProtect(app)
 login_manager = LoginManager()
 login_manager.init_app(app)
@@ -145,7 +145,8 @@ def profile():
     cur_user = flask_login.current_user
     if current_user.is_authenticated:
         return render_template('profile.html',
-                               created_date=cur_user.created_date, name=cur_user.name, about=cur_user.about)
+                               created_date=cur_user.created_date, name=cur_user.name, about=cur_user.about,
+                               id=cur_user.id)
 
 
 @app.route('/logout')
@@ -297,17 +298,16 @@ def profile_redact():
     cur_user = flask_login.current_user
     db_sess = db_session.create_session()
     if form.validate_on_submit():
-
         user = db_sess.query(User).filter(User.id == cur_user.id).first()
-
         if user:
             file_path = os.path.join(app.config['UPLOAD_FOLDER'], str(user.id) + ".jpg")
-            form.avatar.data.save(file_path)
+            if form.avatar.data:
+                form.avatar.data.save(file_path)
             user.name = form.name.data
             user.about = form.about.data
             db_sess.commit()
             return redirect("/profile")
-    return render_template('redact.html', title='Регистрация', form=form)
+    return render_template('redact.html', title='Регистрация', form=form, id=cur_user.id)
 
 
 # так называемый поиск
