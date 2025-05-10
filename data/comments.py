@@ -2,6 +2,8 @@ import datetime
 import sqlalchemy
 from data.db_session import SqlAlchemyBase
 from sqlalchemy_serializer import *
+
+
 # pip install SQLAlchemy-serializer
 
 class Comment(SqlAlchemyBase, SerializerMixin):
