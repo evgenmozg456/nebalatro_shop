@@ -1,42 +1,520 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ru">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Редактирование профиля | NEBALATRO</title>
+    <style>
+        :root {
+            --main-bg: #0a0a12;
+            --card-bg: #1a1a2a;
+            --accent: #d4af37;
+            --text: #e8e1d5;
+            --highlight: #ff5555;
+            --button-bg: #2a2a3a;
+            --button-hover: #3a3a4a;
+            --input-glow: rgba(212, 175, 55, 0.4);
+        }
+
+        body {
+            background-color: var(--main-bg);
+            color: var(--text);
+            font-family: 'Courier New', monospace;
+            margin: 0;
+            padding: 0;
+            background-image:
+                radial-gradient(circle at 20% 30%, #2a1a3a 0%, transparent 30%),
+                radial-gradient(circle at 80% 70%, #1a2a3a 0%, transparent 30%),
+                linear-gradient(to bottom, #0a0a12, #1a1a2a);
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 0;
+            margin-bottom: 40px;
+        }
+
+        .logo {
+            font-size: 2.5rem;
+            font-weight: bold;
+            color: var(--accent);
+            text-shadow:
+                0 0 5px #fff,
+                0 0 10px var(--accent),
+                0 0 20px var(--highlight);
+            animation: neonGlow 1.5s ease-in-out infinite alternate;
+            position: relative;
+        }
+
+        .logo::after {
+            content: "";
+            position: absolute;
+            bottom: -10px;
+            left: 0;
+            width: 100%;
+            height: 2px;
+            background: linear-gradient(90deg, transparent, var(--accent), transparent);
+        }
+
+        @keyframes neonGlow {
+            from {
+                text-shadow:
+                    0 0 5px #fff,
+                    0 0 10px var(--accent),
+                    0 0 20px var(--highlight);
+            }
+            to {
+                text-shadow:
+                    0 0 10px #fff,
+                    0 0 20px var(--accent),
+                    0 0 30px var(--highlight),
+                    0 0 40px var(--highlight);
+            }
+        }
+
+        .nav-button {
+            color: var(--accent);
+            text-decoration: none;
+            font-weight: bold;
+            padding: 8px 15px;
+            border: 1px solid var(--accent);
+            border-radius: 20px;
+            transition: all 0.3s;
+            background: rgba(42, 42, 58, 0.5);
+        }
+
+        .nav-button:hover {
+            background-color: var(--accent);
+            color: var(--main-bg);
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(212, 175, 55, 0.3);
+        }
+
+        .edit-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            flex-grow: 1;
+            padding: 40px 20px;
+            position: relative;
+        }
+
+        .edit-card {
+            background-color: var(--card-bg);
+            border: 3px solid var(--accent);
+            border-radius: 15px;
+            padding: 40px;
+            width: 100%;
+            max-width: 600px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+            position: relative;
+            overflow: hidden;
+            z-index: 2;
+        }
+
+        .edit-card::before {
+            content: "";
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(212,175,55,0.1) 0%, transparent 70%);
+            z-index: -1;
+        }
+
+        .edit-title {
+            font-size: 1.8rem;
+            color: var(--accent);
+            text-align: center;
+            margin-bottom: 30px;
+            position: relative;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+
+        .edit-title::after {
+            content: "";
+            position: absolute;
+            bottom: -10px;
+            left: 25%;
+            right: 25%;
+            height: 2px;
+            background: linear-gradient(to right, transparent, var(--accent), transparent);
+        }
+
+        .avatar-section {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin-bottom: 30px;
+        }
+
+        .avatar-preview {
+            width: 150px;
+            height: 150px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 3px solid var(--accent);
+            margin-bottom: 20px;
+            box-shadow: 0 0 20px rgba(212, 175, 55, 0.3);
+            transition: all 0.3s;
+        }
+
+        .avatar-preview:hover {
+            transform: scale(1.05);
+            box-shadow: 0 0 30px rgba(212, 175, 55, 0.5);
+        }
+
+        .avatar-upload {
+            display: none;
+        }
+
+        .avatar-label {
+            background: linear-gradient(135deg, var(--accent), #e5c100);
+            color: var(--main-bg);
+            padding: 10px 20px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: all 0.3s;
+            box-shadow: 0 5px 15px rgba(212, 175, 55, 0.3);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .avatar-label:hover {
+            background: linear-gradient(135deg, var(--highlight), #ff6b6b);
+            transform: translateY(-2px);
+            box-shadow: 0 7px 20px rgba(255, 85, 85, 0.4);
+        }
+
+        .form-group {
+            margin-bottom: 25px;
+            position: relative;
+        }
+
+        .form-label {
+            display: block;
+            margin-bottom: 8px;
+            color: var(--accent);
+            font-weight: bold;
+            letter-spacing: 1px;
+        }
+
+        .form-input {
+            width: 100%;
+            padding: 12px 15px;
+            background-color: rgba(42, 42, 58, 0.7);
+            border: 2px solid var(--accent);
+            color: var(--text);
+            border-radius: 8px;
+            font-family: inherit;
+            font-size: 1rem;
+            transition: all 0.3s;
+            backdrop-filter: blur(5px);
+            box-sizing: border-box;
+        }
+
+        .form-input:focus {
+            outline: none;
+            border-color: var(--highlight);
+            box-shadow: 0 0 15px var(--input-glow);
+        }
+
+        .bio-input {
+            height: 150px;
+            resize: vertical;
+        }
+
+        .button-group {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 30px;
+        }
+
+        .save-btn {
+            background: linear-gradient(135deg, var(--accent), #e5c100);
+            color: var(--main-bg);
+            border: none;
+            border-radius: 8px;
+            padding: 12px 30px;
+            font-family: inherit;
+            font-size: 1.1rem;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s;
+            box-shadow: 0 5px 15px rgba(212, 175, 55, 0.3);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .save-btn:hover {
+            background: linear-gradient(135deg, var(--highlight), #ff6b6b);
+            transform: translateY(-2px);
+            box-shadow: 0 7px 20px rgba(255, 85, 85, 0.4);
+        }
+
+        .cancel-btn {
+            background: transparent;
+            color: var(--accent);
+            border: 2px solid var(--accent);
+            border-radius: 8px;
+            padding: 12px 30px;
+            font-family: inherit;
+            font-size: 1.1rem;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .cancel-btn:hover {
+            background-color: rgba(212, 175, 55, 0.1);
+            transform: translateY(-2px);
+        }
+
+        .floating-cards {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+            pointer-events: none;
+            z-index: 0;
+            overflow: hidden;
+        }
+
+        .floating-card {
+            position: absolute;
+            width: 80px;
+            height: 120px;
+            background-color: rgba(42, 42, 58, 0.3);
+            border: 2px solid var(--accent);
+            border-radius: 8px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 1.5rem;
+            color: var(--accent);
+            opacity: 0.3;
+            animation: floatCard 15s linear infinite;
+        }
+
+        .floating-card:nth-child(1) {
+            top: 10%;
+            left: 5%;
+            animation-delay: 0s;
+        }
+
+        .floating-card:nth-child(2) {
+            top: 30%;
+            right: 8%;
+            animation-delay: 3s;
+            animation-duration: 18s;
+        }
+
+        .floating-card:nth-child(3) {
+            bottom: 20%;
+            left: 15%;
+            animation-delay: 6s;
+            animation-duration: 20s;
+        }
+
+        @keyframes floatCard {
+            0% { transform: translateY(0) rotate(0deg); }
+            50% { transform: translateY(-50px) rotate(10deg); }
+            100% { transform: translateY(0) rotate(0deg); }
+        }
+
+        footer {
+            border-top: 2px solid var(--accent);
+            padding-top: 20px;
+            text-align: center;
+            margin-top: auto;
+            font-size: 0.9rem;
+        }
+
+        @media (max-width: 768px) {
+            .edit-card {
+                padding: 25px;
+            }
+
+            .edit-title {
+                font-size: 1.5rem;
+            }
+
+            .button-group {
+                flex-direction: column;
+                gap: 15px;
+            }
+
+            .save-btn, .cancel-btn {
+                width: 100%;
+            }
+        }
+                        .nav-container {
+            display: flex;
+            gap: 20px;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        .nav-link {
+            color: var(--accent);
+            text-decoration: none;
+            font-weight: bold;
+            padding: 12px 30px 12px;
+            border: 2px solid var(--accent);
+            border-radius: 30px;
+            transition: all 0.3s ease;
+            background-color: rgba(42, 42, 58, 0.5);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+        }
+
+        .nav-link:hover {
+            background-color: var(--accent);
+            color: var(--main-bg);
+            transform: translateY(-3px);
+            box-shadow: 0 6px 15px rgba(212, 175, 55, 0.4);
+        }
+
+        .nav-link:active {
+            transform: translateY(1px);
+        }
+
+        .nav-link::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(212,175,55,0.2) 0%, transparent 70%);
+            z-index: -1;
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+
+        .nav-link:hover::before {
+            opacity: 1;
+        }
+    </style>
 </head>
 <body>
-<form action="" method="post" enctype="multipart/form-data">
-     {{ form.hidden_tag() }}
-    <h1>Редактировать профиль</h1>
-    <p>
-        {{ form.avatar.label }}<br>
-        {{ form.avatar(class="form-control") }}<br>
-        {% for error in form.name.errors %}
-            <p class="alert alert-danger" role="alert">
-                {{ error }}
-            </p>
-        {% endfor %}
-    </p>
-    <p>
-        {{ form.name.label }}<br>
-        {{ form.name(class="form-control") }}<br>
-        {% for error in form.name.errors %}
-            <p class="alert alert-danger" role="alert">
-                {{ error }}
-            </p>
-        {% endfor %}
-    </p>
-    <p>
-        {{ form.about.label }}<br>
-        {{ form.about(class="form-control") }}<br>
-        {% for error in form.about.errors %}
-            <p class="alert alert-danger" role="alert">
-                {{ error }}
-            </p>
-        {% endfor %}
-    </p>
-    <p>{{ form.submit(type="submit", class="btn btn-primary") }}</p>
-    {{message}}
-</form>
+    <div class="container">
+        <header>
+            <div class="logo">NEBALATRO</div>
+            <a href="/profile" class="nav-link">Назад к профилю</a>
+        </header>
+
+        <main class="edit-container">
+            <!-- Плавающие карты на заднем фоне -->
+            <div class="floating-cards">
+                <div class="floating-card">A</div>
+                <div class="floating-card">K</div>
+                <div class="floating-card">Q</div>
+            </div>
+
+            <div class="edit-card">
+                <h2 class="edit-title">Редактирование профиля</h2>
+
+                <div class="avatar-section">
+                    <img src="static/avatars/{{id}}.jpg" alt="Аватар" class="avatar-preview" id="avatarPreview">
+                    <input type="file" id="avatarUpload" class="avatar-upload" accept="image/*">
+<!--                    {{ form.avatar.label(class="avatar-label") }}<br>-->
+<!--                    {{ form.avatar(class="avatar-upload") }}<br>-->
+
+<!--                    <label for="avatarUpload" class="avatar-label">Изменить аватар</label>-->
+                </div>
+
+                <form action="" method="post" enctype="multipart/form-data">
+
+                    {{ form.avatar.label(class="avatar-label")}}<br>
+                    <p hidden="hidden">
+                    {{ form.avatar}}<br>
+                    </p>
+                    {% for error in form.avatar.errors %}
+
+                    <p class="alert alert-danger" role="alert">
+                        {{ error }}
+                    </p>
+                    {% endfor %}
+                    {{ form.hidden_tag() }}
+                    <div class="form-group">
+                        <p>
+                        {{ form.name.label(class="form-label") }}<br>
+                        {{ form.name(class="form-input") }}<br>
+                        {% for error in form.name.errors %}
+                            <p class="alert alert-danger" role="alert">
+                            {{ error }}
+                        </p>
+                        {% endfor %}
+                        </p>
+<!--                        <label for="username" class="form-label">Имя пользователя</label>-->
+<!--                        <input type="text" id="username" class="form-input" value="CardMaster">-->
+                    </div>
+
+                    <div class="form-group">
+                        {{ form.about.label(class="form-label") }}<br>
+                        {{ form.about(class="form-input bio-input") }}<br>
+                        {% for error in form.about.errors %}
+                        <p class="alert alert-danger" role="alert">
+                            {{ error }}
+                        </p>
+                        {% endfor %}
+<!--                        <label for="bio" class="form-label">О себе</label>-->
+<!--                        <textarea id="bio" class="form-input bio-input">Страстный игрок в покер и разработчик карточных игр. Люблю сложные стратегии и неожиданные повороты. Участник нескольких турниров по Texas Hold'em.</textarea>-->
+                    </div>
+                    <div class="button-group">
+                        <p>{{ form.submit(type="submit", class="save-btn") }}</p>
+                        {{message}}
+<!--                        <button type="submit" class="save-btn">Сохранить изменения</button>-->
+                    </div>
+                </form>
+            </div>
+        </main>
+
+        <footer>
+            <p>© 2023 NEBALATRO. Все права защищены.</p>
+            <p>Погрузитесь в мир азартных приключений</p>
+        </footer>
+    </div>
+
+    <script>
+        // Обработка загрузки аватара
+        document.getElementById('avatarUpload').addEventListener('change', function(e) {
+            const file = e.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function(event) {
+                    document.getElementById('avatarPreview').src = event.target.result;
+                }
+                reader.readAsDataURL(file);
+            }
+        });
+
+        // Обработка кнопки "Отменить"
+        document.querySelector('.cancel-btn').addEventListener('click', function() {
+            if (confirm('Все несохраненные изменения будут потеряны. Продолжить?')) {
+                window.location.href = 'profile.html';
+            }
+        });
+    </script>
 </body>
 </html>

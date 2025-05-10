@@ -19,7 +19,7 @@ from flask_login import LoginManager, login_user, logout_user, login_required, c
 
 app = Flask(__name__)
 app.config['SECRET_KEY'] = 'yandexlyceum_secret_key'
-app.config['UPLOAD_FOLDER'] = 'static'
+app.config['UPLOAD_FOLDER'] = 'static/avatars'
 csrf = CSRFProtect(app)
 login_manager = LoginManager()
 login_manager.init_app(app)
@@ -61,6 +61,7 @@ def game_card(game_id):
         abort(404)
     steam_data = None
     error = None
+    video = None
 
     if game.steam_id:
         try:
@@ -69,11 +70,14 @@ def game_card(game_id):
                 headers={'Accept': 'application/json'}
             )
             data = response.json()
+            video = data[str(game.steam_id)]['data']['movies'][0]['webm']['480']
 
             if data and data.get(str(game.steam_id), {}).get('success'):
                 steam_data = data[str(game.steam_id)]['data']
             else:
                 error = "Данные игры не найдены в Steam"
+
+
         except Exception as e:
             error = f"Ошибка при загрузке данных из Steam: {str(e)}"
 
@@ -81,13 +85,14 @@ def game_card(game_id):
         'game_card.html',
         game=game,
         steam_data=steam_data,
-        error=error
+        error=error,
+        video=video
     )
 
 
 @app.route('/signin')
 def sign_in():
-    return render_template('sign_in.html')
+    return render_template('login.html')
 
 
 @app.route('/about')
@@ -104,23 +109,23 @@ def login():
         if user and user.check_password(form.password.data):
             login_user(user, remember=form.remember_me.data)
             return redirect("/")
-        return render_template('testing_login.html',
+        return render_template('login.html',
                                message="Неправильный логин или пароль",
                                form=form)
-    return render_template('testing_login.html', title='Авторизация', form=form)
+    return render_template('login.html', title='Авторизация', form=form)
 
 
-@app.route('/registration_test', methods=['GET', 'POST'])
+@app.route('/register', methods=['GET', 'POST'])
 def reqister():
     form = RegisterForm()
     if form.validate_on_submit():
         if form.password.data != form.password_again.data:
-            return render_template('testing_reg.html', title='Регистрация',
+            return render_template('register.html', title='Регистрация',
                                    form=form,
                                    message="Пароли не совпадают")
         db_sess = db_session.create_session()
         if db_sess.query(User).filter(User.email == form.email.data).first():
-            return render_template('testing_reg.html', title='Регистрация',
+            return render_template('register.html', title='Регистрация',
                                    form=form,
                                    message="Такой пользователь уже есть")
         user = User(
@@ -132,7 +137,7 @@ def reqister():
         db_sess.add(user)
         db_sess.commit()
         return redirect('/login')
-    return render_template('testing_reg.html', title='Регистрация', form=form)
+    return render_template('register.html', title='Регистрация', form=form)
 
 
 @app.route('/profile')
@@ -140,7 +145,8 @@ def profile():
     cur_user = flask_login.current_user
     if current_user.is_authenticated:
         return render_template('profile.html',
-                               created_date=cur_user.created_date, name=cur_user.name, about=cur_user.about)
+                               created_date=cur_user.created_date, name=cur_user.name, about=cur_user.about,
+                               id=cur_user.id)
 
 
 @app.route('/logout')
@@ -292,17 +298,16 @@ def profile_redact():
     cur_user = flask_login.current_user
     db_sess = db_session.create_session()
     if form.validate_on_submit():
-
         user = db_sess.query(User).filter(User.id == cur_user.id).first()
-
         if user:
             file_path = os.path.join(app.config['UPLOAD_FOLDER'], str(user.id) + ".jpg")
-            form.avatar.data.save(file_path)
+            if form.avatar.data:
+                form.avatar.data.save(file_path)
             user.name = form.name.data
             user.about = form.about.data
             db_sess.commit()
             return redirect("/profile")
-    return render_template('redact.html', title='Регистрация', form=form)
+    return render_template('redact.html', title='Регистрация', form=form, id=cur_user.id)
 
 
 # так называемый поиск

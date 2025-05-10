@@ -116,8 +116,8 @@
             color: var(--text);
             margin-bottom: 20px;
             position: relative;
-            animation: typewriter 4s steps(20) 1s 1 normal both,
-                       blinkTextCursor 500ms steps(20) infinite normal;
+            animation: typewriter 4s steps(30) 1s 1 normal both,
+                       blinkTextCursor 700ms steps(20) infinite normal;
             overflow: hidden;
             white-space: nowrap;
             border-right: 3px solid var(--accent);
@@ -125,7 +125,7 @@
 
         @keyframes typewriter {
             from { width: 0; }
-            to { width: 100%; }
+            to { width: 55%; }
         }
 
         @keyframes blinkTextCursor {
@@ -143,7 +143,7 @@
 
         .search-input {
             width: 100%;
-            padding: 15px 30px 15px 60px;
+            padding: 15px 90px 15px 100px;
             font-size: 1.2rem;
             background-color: rgba(42, 42, 58, 0.7);
             border: 2px solid var(--accent);
@@ -151,6 +151,7 @@
             border-radius: 50px;
             outline: none;
             transition: all 0.4s;
+            transform: translateX(-13%);
             box-shadow: 0 0 10px rgba(0,0,0,0.2);
             backdrop-filter: blur(5px);
         }
@@ -158,7 +159,6 @@
         .search-input:focus {
             border-color: var(--highlight);
             box-shadow: 0 0 20px var(--search-glow);
-            transform: scale(1.02);
         }
 
         .search-icon {
@@ -173,12 +173,11 @@
 
         .search-input:focus + .search-icon {
             color: var(--highlight);
-            transform: translateY(-50%) scale(1.1);
         }
 
         .search-button {
             position: absolute;
-            right: 5px;
+            right: -20px;
             top: 50%;
             transform: translateY(-50%);
             background-color: var(--accent);
@@ -189,6 +188,7 @@
             cursor: pointer;
             font-weight: bold;
             transition: all 0.3s;
+            transform: translateY(-50%);
             box-shadow: 0 0 10px rgba(212, 175, 55, 0.3);
         }
 
@@ -245,6 +245,77 @@
             margin-top: 40px;
             font-size: 0.9rem;
         }
+        .login-link {
+            color: var(--accent);
+            text-decoration: none;
+            font-weight: bold;
+            padding: 8px 15px;
+            border: 1px solid var(--accent);
+            border-radius: 20px;
+            transition: all 0.3s;
+            background: rgba(42, 42, 58, 0.5);
+            box-sizing: border-box;
+            height: var(--input-height);
+            display: flex;
+            align-items: center;
+        }
+
+        .login-link:hover {
+            background-color: var(--accent);
+            color: var(--main-bg);
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(212, 175, 55, 0.3);
+        }
+                .nav-container {
+            display: flex;
+            gap: 20px;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        .nav-link {
+            color: var(--accent);
+            text-decoration: none;
+            font-weight: bold;
+            padding: 12px 25px;
+            border: 2px solid var(--accent);
+            border-radius: 30px;
+            transition: all 0.3s ease;
+            background-color: rgba(42, 42, 58, 0.5);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+        }
+
+        .nav-link:hover {
+            background-color: var(--accent);
+            color: var(--main-bg);
+            transform: translateY(-3px);
+            box-shadow: 0 6px 15px rgba(212, 175, 55, 0.4);
+        }
+
+        .nav-link:active {
+            transform: translateY(1px);
+        }
+
+        .nav-link::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(212,175,55,0.2) 0%, transparent 70%);
+            z-index: -1;
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+
+        .nav-link:hover::before {
+            opacity: 1;
+        }
     </style>
 </head>
 <body>
@@ -252,12 +323,12 @@
         <header>
             <div class="nav-left">
                     {% if current_user.is_authenticated %}
-                        <a class="nav-button" href="/logout">выйти</a>
+                        <a class="nav-link" href="/logout">выйти</a>
                     {% else %}
                         <p>
-                            <a class="nav-button " href="/registration_test">Зарегистрироваться</a>
-                            <a class="nav-button" href="/login">Войти</a>
-                            <a href="/about" class="nav-button">о нас</a>
+                            <a class="nav-link" href="/register">Зарегистрироваться</a>
+                            <a class="nav-link" href="/login">Войти</a>
+                            <a href="/about" class="nav-link">о нас</a>
                         </p>
                     {% endif %}
 <!--                    <a href="/registration_test" class="nav-button">Регистрация</a>-->
@@ -269,9 +340,9 @@
             </div>
             <div class="nav-right">
                 {% if current_user.is_authenticated %}
-                    <a class="nav-button " href="/profile">{{ current_user.name }}</a>
+                    <a class="nav-link" href="/profile">{{ current_user.name }}</a>
                 {% else %}
-                     <a class="nav-button " href="/login">профиль</a>
+                     <a class="nav-link" href="/login">профиль</a>
                 {% endif %}
             </div>
         </header>
@@ -291,14 +362,14 @@
             </div>
 
             <div class="card-deck">
-                <div class="playing-card">A</div>
-                <div class="playing-card">K</div>
-                <div class="playing-card">Q</div>
+                <div class="playing-card">NEB</div>
+                <div class="playing-card">ALA</div>
+                <div class="playing-card">TRO</div>
             </div>
         </main>
 
         <footer>
-            <p>© 2023 NEBALATRO. Все права защищены.</p>
+            <p>© 2025 NEBALATRO. Все права защищены.</p>
             <p>найдите любую игру</p>
         </footer>
     </div>

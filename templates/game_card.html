@@ -404,7 +404,6 @@
         </header>
 
         <main class="game-container">
-            <!-- Плавающие карты на заднем фоне -->
             <div class="floating-cards">
                 <div class="floating-card">A</div>
                 <div class="floating-card">K</div>
@@ -429,35 +428,21 @@
                     <p class="game-subtitle">
                         {{ steam_data.short_description if steam_data else "Описание недоступно" }}
                     </p>
+                    <div class="game-video" style="width:100%; height:0; padding-bottom:56.25%; position:relative;">
+                        {% if steam_data and steam_data.movies %}
+                            <video controls style="position:absolute; top:0; left:0; width:100%; height:100%;">
+                                <source src={{ video }} type="video/webm">
+                                Ваш браузер не поддерживает видео.
+                                <a href="https://store.steampowered.com/app/{{ game.steam_id }}" target="_blank">
+                                    Смотреть на Steam
+                                </a>
+                            </video>
+                        {% else %}
+                            <img src="https://cdn.cloudflare.steamstatic.com/steam/apps/{{ game.steam_id }}/header.jpg"
+                                 style="position:absolute; top:0; left:0; width:100%; height:100%; object-fit:cover;">
+                        {% endif %}
+                    </div>
 
-<!--                    <div class="game-video">-->
-<!--                        {% if steam_data and steam_data.movies %}-->
-<!--                            {# Вариант 1: YouTube как основной источник #}-->
-<!--                            <iframe src="https://www.youtube.com/embed/{{ steam_data.movies[0].youtube_id }}"-->
-<!--                                    title="{{ steam_data.movies[0].name }}"-->
-<!--                                    frameborder="0"-->
-<!--                                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"-->
-<!--                                    allowfullscreen></iframe>-->
-<!--                        {% elif game.steam_id %}-->
-<!--                            {# Вариант 2: Альтернативный Steam-плеер #}-->
-<!--                            <iframe src="https://steamcdn-a.akamaihd.net/steam/apps/{{ game.steam_id }}/movie480.webm"-->
-<!--                                    type="video/webm"-->
-<!--                                    style="width:100%;height:100%;"-->
-<!--                                    controls>-->
-<!--                                Ваш браузер не поддерживает видео.-->
-<!--                                <a href="https://store.steampowered.com/app/{{ game.steam_id }}" target="_blank">-->
-<!--                                    Смотреть на Steam-->
-<!--                                </a>-->
-<!--                            </iframe>-->
-<!--                        {% else %}-->
-<!--                            {# Запасной вариант: Постер игры #}-->
-<!--                            <div style="background: #000; width:100%; height:100%; display:flex; align-items:center; justify-content:center;">-->
-<!--                                <img src="https://cdn.cloudflare.steamstatic.com/steam/apps/{{ game.steam_id }}/header.jpg"-->
-<!--                                     alt="Постер игры"-->
-<!--                                     style="max-width:100%; max-height:100%; object-fit:contain;">-->
-<!--                            </div>-->
-<!--                        {% endif %}-->
-<!--                    </div>-->
 
                     <div class="game-content">
                         <div class="game-description">
@@ -467,7 +452,6 @@
                                 <p>Описание игры недоступно</p>
                             {% endif %}
                         </div>
-
                         <div class="game-info">
                             <div class="info-item">
                                 <div class="info-label">Жанр</div>
@@ -531,14 +515,13 @@
                        class="buy-button">
                         Купить в Steam
                         {% if steam_data and steam_data.price_overview %}
-                            ${{ "%.2f"|format(steam_data.price_overview.final / 100) }}
+                            ₽{{ "%.2f"|format(steam_data.price_overview.final / 100) }}
                         {% endif %}
                     </a>
 
-                        <!-- Новая кнопка "Читать комментарии" -->
-                        <a id="show-comments" href="/comments_list/{{ game.id }}" class="comments-button">
+                        <button id="show-comments" class="comments-button">
                             Читать комментарии
-                        </a>
+                        </button>
                     {% endif %}
                 </div>
             </main>
