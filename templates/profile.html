@@ -302,6 +302,65 @@
                 gap: 20px;
             }
         }
+                /* Стиль для кнопки "Редактировать профиль" */
+        .edit-profile-btn {
+            display: inline-block;
+            padding: 12px 30px;
+            background: linear-gradient(135deg, var(--accent), #e5c100);
+            color: var(--main-bg);
+            border: none;
+            border-radius: 30px;
+            font-family: inherit;
+            font-size: 1.1rem;
+            font-weight: bold;
+            text-decoration: none;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 5px 15px rgba(212, 175, 55, 0.3);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .edit-profile-btn:hover {
+            background: linear-gradient(135deg, var(--highlight), #ff6b6b);
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(255, 85, 85, 0.4);
+        }
+
+        .edit-profile-btn:active {
+            transform: translateY(1px);
+        }
+
+        .edit-profile-btn::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(212,175,55,0.2) 0%, transparent 70%);
+            z-index: 0;
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+
+        .edit-profile-btn:hover::before {
+            opacity: 1;
+        }
+
+        .edit-profile-btn span {
+            position: relative;
+            z-index: 1;
+        }
+
+        /* Иконка карандаша (опционально) */
+        .edit-profile-btn::after {
+            content: '✎';
+            margin-left: 8px;
+            font-size: 1rem;
+        }
     </style>
 </head>
 <body>
@@ -344,7 +403,7 @@
                     </div>
                 </div>
 
-                <a class="edit-button" href="/profile_redact">Редактировать профиль</a>
+                <a class="edit-profile-btn" href="/profile_redact">Редактировать профиль</a>
             </div>
         </main>
 
