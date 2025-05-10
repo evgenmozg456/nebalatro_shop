@@ -1,7 +1,7 @@
 import os
 
 import flask_login
-from flask import Flask, render_template, request, redirect, abort, jsonify
+from flask import Flask, render_template, request, redirect, abort, jsonify, url_for
 from werkzeug.datastructures import FileStorage
 from werkzeug.utils import secure_filename
 import requests
@@ -90,7 +90,6 @@ def game_card(game_id):
     )
 
 
-
 @app.route('/signin')
 def sign_in():
     return render_template('sign_in.html')
@@ -156,16 +155,51 @@ def logout():
     return redirect("/")
 
 
-@app.route('/comments_list', methods=['GET', 'POST'])
-def comments_list():
+@app.route('/comments_list/<int:game_id>', methods=['GET', 'POST'])
+def comments_list(game_id):
+    if request.method == 'POST' and current_user.is_authenticated:
+
+        if 'like' in request.form:
+            button_value = request.form.get('like')
+
+            db_sess = db_session.create_session()
+            likes = db_sess.query(Comment).filter(Comment.id == button_value).first()
+            cur_user = flask_login.current_user
+            # user = db_sess.query(User).filter(User.name == cur_user.name).first()
+            liked = str(likes.liked_id)
+
+            if str(cur_user.id) not in liked.split(' '):
+                new_id_list = liked.split(' ')
+                new_id_list.append(f'{cur_user.id}')
+                likes.liked_id = ' '.join(new_id_list)
+
+                likes.like_count = likes.like_count + 1
+
+                db_sess.commit()
+            else:
+                new_id_list = liked.split(' ')
+                new_id_list.remove(f'{cur_user.id}')
+                likes.liked_id = ' '.join(new_id_list)
+                likes.like_count = likes.like_count - 1
+                db_sess.commit()
+
     db_sess = db_session.create_session()
-    comments = db_sess.query(Comment).filter(Comment.reply_id == 0).all()
+    comments = db_sess.query(Comment).filter(Comment.reply_id == 0).filter(Comment.game_id == game_id).all()
     coms = []
     for i in comments:
+        if current_user.is_authenticated:
+            cur_user = flask_login.current_user
+            liked = str(i.liked_id)
+            if str(cur_user.id) in liked.split(' '):
+                com_liked = True
+            else:
+                com_liked = False
+        else:
+            com_liked = False
         user_name = db_sess.query(User).filter(User.id == i.user_id).first()
         coms.append([i.id, i.text, user_name.name, i.data, i.reply_id, i.game_id, 0, get_comment_rec(db_sess, i.id, 1),
-                     i.user_id])
-    return render_template('comments_list_test.html', title='Комменты', form=coms)
+                     i.user_id, i.like_count, com_liked])
+    return render_template('comments_list_test.html', title='Комменты', form=coms, game_id=game_id)
 
 
 def get_comment_rec(db_sess, id_parent, level=0):
@@ -177,6 +211,15 @@ def get_comment_rec(db_sess, id_parent, level=0):
         coms = ''
         for i in comments:
             user_name = db_sess.query(User).filter(User.id == i.user_id).first()
+            if current_user.is_authenticated:
+                cur_user = flask_login.current_user
+                liked = str(i.liked_id)
+                if str(cur_user.id) in liked.split(' '):
+                    com_liked = 'liked'
+                else:
+                    com_liked = ''
+            else:
+                com_liked = ''
             s = f"""
             <p>
                 <p style="margin-left: {50 * level}px; border:5px; border-style:inset; border-color:pink; padding: 1em; border-radius: 30px;">
@@ -184,7 +227,14 @@ def get_comment_rec(db_sess, id_parent, level=0):
                 Комментарий:{i.text}<br>
                 Дата отправки:{i.data}<br>
                 <a class="nav-button" href="/comment/{i.id}/{i.game_id}/{i.user_id}">Ответить</a>
-
+                <div class="like-wrapper">
+                    <button type="submit" class="like-btn {com_liked}" value = "{i.id}" name="like" style="margin-left: {50 * level}px;">
+                        <svg class="like-icon" viewBox="0 0 24 24">
+                            <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/>
+                        </svg>
+                        {i.like_count}
+                    </button>
+                
                 </p>
             </p>
             """
@@ -195,21 +245,50 @@ def get_comment_rec(db_sess, id_parent, level=0):
         return coms
 
 
-@app.route('/comment/<int:reply_id>/<int:game_id>/<int:user_id>', methods=['GET', 'POST'])
-def comment(reply_id, game_id, user_id):
-    form = CommentForm()
-    if form.validate_on_submit():
-        print(reply_id)
-        com = Comment()
-        com.text = request.form.get('text')
-        com.user_id = user_id
-        com.game_id = game_id
-        com.reply_id = reply_id
+@app.route('/comment/<int:reply_id>/<int:game_id>', methods=['GET', 'POST'])
+def comment(reply_id, game_id):
+    if current_user.is_authenticated:
+        form = CommentForm()
+        if form.validate_on_submit():
+            db_sess = db_session.create_session()
+            cur_user = flask_login.current_user
+            user_name = db_sess.query(User).filter(User.name == cur_user.name).first()
+            com = Comment()
+            com.text = request.form.get('text')
+            com.user_id = user_name.id
+            com.game_id = game_id
+            com.reply_id = reply_id
+            db_sess = db_session.create_session()
+            db_sess.add(com)
+            db_sess.commit()
+            return redirect(f'/comments_list/{game_id}')
         db_sess = db_session.create_session()
-        db_sess.add(com)
-        db_sess.commit()
-        return redirect('/comments_list')
-    return render_template('LeaveComment.html', title='Комментарий', form=form, reply_id=reply_id, game_id=game_id)
+        game_name = db_sess.query(Game).filter(Game.id == game_id).first()
+        return render_template('LeaveComment.html', title='Комментарий', form=form, reply_id=reply_id, game_id=game_id,
+                               game_name=game_name.name)
+    else:
+        return redirect(f'/comments_list/{game_id}')
+
+
+@app.route('/my_coms', methods=['GET', 'POST'])
+def my_coms():
+    if current_user.is_authenticated:
+        cur_user = flask_login.current_user
+        db_sess = db_session.create_session()
+        coms = db_sess.query(Comment).filter(Comment.user_id == cur_user.id).all()
+
+        user_coms = []
+        for i in coms:
+            liked = str(i.liked_id)
+            if str(cur_user.id) in liked.split(' '):
+                com_liked = True
+            else:
+                com_liked = False
+            user_name = db_sess.query(User).filter(User.id == i.user_id).first()
+            game_name = db_sess.query(Game).filter(Game.id == i.game_id).first()
+            user_coms.append([i.id, i.text, user_name.name, i.data, i.reply_id, i.game_id, 0,
+                              i.user_id, i.like_count, com_liked, game_name.name])
+        return render_template('my_coms.html', title='Мои комментарии', form=user_coms)
 
 
 @app.route('/profile_redact', methods=['GET', 'POST'])
