@@ -221,7 +221,7 @@ def get_comment_rec(db_sess, id_parent, level=0):
                 Имя пользователя:{user_name.name}<br>
                 Комментарий:{i.text}<br>
                 Дата отправки:{i.data}<br>
-                <a class="nav-button" href="/comment/{i.id}/{i.game_id}/{i.user_id}">Ответить</a>
+                <a class="nav-button" href="/comment/{i.id}/{i.game_id}">Ответить</a>
                 <div class="like-wrapper">
                     <button type="submit" class="like-btn {com_liked}" value = "{i.id}" name="like" style="margin-left: {50 * level}px;">
                         <svg class="like-icon" viewBox="0 0 24 24">
