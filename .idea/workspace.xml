@@ -4,10 +4,9 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="a38f6138-c130-4457-8fe9-56839e310b93" name="Changes" comment="ещё изменения">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+    <list default="true" id="a38f6138-c130-4457-8fe9-56839e310b93" name="Changes" comment="сервер">
       <change beforePath="$PROJECT_DIR$/db/nebalatro.db" beforeDir="false" afterPath="$PROJECT_DIR$/db/nebalatro.db" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/static/avatars/avatar_default.jpg" beforeDir="false" afterPath="$PROJECT_DIR$/static/avatar_default.jpg" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/server.py" beforeDir="false" afterPath="$PROJECT_DIR$/server.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -51,11 +50,12 @@
     "Python.loginform.executor": "Run",
     "Python.main.executor": "Run",
     "Python.redact_form.executor": "Run",
+    "Python.server.executor": "Run",
     "Python.test.executor": "Run",
     "Python.users.executor": "Run",
     "RunOnceActivity.OpenProjectViewOnStart": "true",
     "RunOnceActivity.ShowReadmeOnStart": "true",
-    "git-widget-placeholder": "46d4f3f0",
+    "git-widget-placeholder": "c61ef959",
     "last_opened_file_path": "C:/Users/Admin/PycharmProjects/WEBproject/templates"
   }
 }]]></component>
@@ -326,7 +326,15 @@
       <option name="project" value="LOCAL" />
       <updated>1746855834400</updated>
     </task>
-    <option name="localTasksCounter" value="18" />
+    <task id="LOCAL-00018" summary="сервер">
+      <option name="closed" value="true" />
+      <created>1746862115011</created>
+      <option name="number" value="00018" />
+      <option name="presentableId" value="LOCAL-00018" />
+      <option name="project" value="LOCAL" />
+      <updated>1746862115011</updated>
+    </task>
+    <option name="localTasksCounter" value="19" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -368,6 +376,7 @@
     <MESSAGE value="больше доработок" />
     <MESSAGE value="окружение для хостинга" />
     <MESSAGE value="ещё изменения" />
-    <option name="LAST_COMMIT_MESSAGE" value="ещё изменения" />
+    <MESSAGE value="сервер" />
+    <option name="LAST_COMMIT_MESSAGE" value="сервер" />
   </component>
 </project>
