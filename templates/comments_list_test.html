@@ -302,7 +302,7 @@
     <p>
         {%for coms in form%}
     <p style="border:5px; border-style:inset; border-color:pink; padding: 1em; border-radius: 30px;">
-        {{coms[2] |safe}}<br>
+        Имя пользователя: {{coms[2] |safe}}<br>
         {{coms[1] |safe}}<br>
         Дата: {{coms[3].strftime("%d.%m.%Y %H:%M") |safe}}<br>
         <a class="nav-button" href="/comment/{{coms[0]}}/{{coms[5]}}">Ответить</a>
