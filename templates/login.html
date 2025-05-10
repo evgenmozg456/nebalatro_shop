@@ -15,6 +15,7 @@
             --button-hover: #3a3a4a;
             --input-glow: rgba(212, 175, 55, 0.4);
             --chip-red: #e74c3c;
+            --chip-yellow: #FFFF00;
             --chip-blue: #3498db;
             --chip-green: #2ecc71;
             --input-height: 46px;
@@ -221,7 +222,7 @@
             position: absolute;
             left: 15px;
             top: calc(var(--input-height) + 8px);
-            transform: translateY(-50%);
+            transform: translateY(-100%);
             color: var(--accent);
             font-size: 1.2rem;
             transition: all 0.3s;
@@ -409,7 +410,7 @@
     <div class="container">
         <header>
             <div class="logo">NEBALATRO</div>
-            <a href="register.html" class="register-link">Регистрация</a>
+            <a href="/" class="register-link">Главная</a>
         </header>
 
         <main class="auth-container">
@@ -419,33 +420,66 @@
 
             <div class="auth-card">
                 <h2 class="auth-title">Авторизация</h2>
-
-                <form>
-                    <div class="form-group">
-                        <label for="login" class="form-label">Логин или Email</label>
+            <form action="" method="post">
+                {{ form.hidden_tag() }}
+                <div class="form-group">
+                    <p>
+                        {{ form.email.label }}<br>
+                        {{ form.email(class="form-input", type="email") }}<br>
                         <span class="input-icon">👤</span>
-                        <input type="text" id="login" class="form-input" placeholder="Введите логин или email" required>
-                    </div>
-
-                    <div class="form-group">
-                        <label for="password" class="form-label">Пароль</label>
+                        {% for error in form.email.errors %}
+                            <div class="alert alert-danger" role="alert">
+                                {{ error }}
+                            </div>
+                        {% endfor %}
+                    </p>
+                </div>
+                <div class="form-group">
+                    <p>
+                        {{ form.password.label }}<br>
+                        {{ form.password(class="form-input", type="password") }}<br>
                         <span class="input-icon">🔒</span>
-                        <input type="password" id="password" class="form-input" placeholder="Введите ваш пароль" required>
-                        <a href="#" class="forgot-password">Забыли пароль?</a>
-                    </div>
+                        {% for error in form.password.errors %}
+                            <div class="alert alert-danger" role="alert">
+                                {{ error }}
+                            </div>
+                        {% endfor %}
+                    </p>
+                </div>
+                <div class="form-group">
+                    <a href="#" class="forgot-password">Забыли пароль?</a>
+                </div>
+                <div class="form-group">
+                    <p>{{ form.submit(type="submit", class="submit-btn") }}</p>
+                </div>
+            <div>{{ message }}</div>
+            </form>
+<!--                <form>-->
+<!--                    <div class="form-group">-->
+<!--                        <label for="login" class="form-label">Логин или Email</label>-->
+<!--                        <span class="input-icon">👤</span>-->
+<!--                        <input type="text" id="login" class="form-input" placeholder="Введите логин или email" required>-->
+<!--                    </div>-->
 
-                    <button type="submit" class="submit-btn">Войти</button>
+<!--                    <div class="form-group">-->
+<!--                        <label for="password" class="form-label">Пароль</label>-->
+<!--                        <span class="input-icon">🔒</span>-->
+<!--                        <input type="password" id="password" class="form-input" placeholder="Введите ваш пароль" required>-->
+<!--                        <a href="#" class="forgot-password">Забыли пароль?</a>-->
+<!--                    </div>-->
+
+<!--                    <button type="submit" class="submit-btn">Войти</button>-->
 
                     <div class="form-footer">
-                        Нет аккаунта? <a href="register.html">Зарегистрируйтесь</a>
+                        Нет аккаунта? <a href="/register">Зарегистрируйтесь</a>
                     </div>
                 </form>
             </div>
 
             <div class="chips-container">
-                <div class="poker-chip chip-red">$<span class="chip-value">100</span></div>
-                <div class="poker-chip chip-blue">$<span class="chip-value">500</span></div>
-                <div class="poker-chip chip-green">$<span class="chip-value">1000</span></div>
+                <div class="poker-chip chip-yellow">$<span class="chip-value">NEB</span></div>
+                <div class="poker-chip chip-yellow">$<span class="chip-value">ALA</span></div>
+                <div class="poker-chip chip-yellow">$<span class="chip-value">TRO</span></div>
             </div>
         </main>
 

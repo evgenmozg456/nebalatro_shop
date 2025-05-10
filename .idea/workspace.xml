@@ -4,10 +4,9 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="a38f6138-c130-4457-8fe9-56839e310b93" name="Changes" comment="починена база данных(удалена промежуточная и восстановлена старая)">
+    <list default="true" id="a38f6138-c130-4457-8fe9-56839e310b93" name="Changes" comment="изменения в шаблонах">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/main.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/game.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/game.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/db/nebalatro.db" beforeDir="false" afterPath="$PROJECT_DIR$/db/nebalatro.db" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -17,8 +16,8 @@
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
       <list>
-        <option value="HTML File" />
         <option value="Python Script" />
+        <option value="HTML File" />
       </list>
     </option>
   </component>
@@ -54,7 +53,7 @@
     "Python.users.executor": "Run",
     "RunOnceActivity.OpenProjectViewOnStart": "true",
     "RunOnceActivity.ShowReadmeOnStart": "true",
-    "git-widget-placeholder": "492a6c69",
+    "git-widget-placeholder": "a524e0b5",
     "last_opened_file_path": "C:/Users/Admin/PycharmProjects/WEBproject/templates"
   }
 }]]></component>
@@ -275,7 +274,23 @@
       <option name="project" value="LOCAL" />
       <updated>1746524946370</updated>
     </task>
-    <option name="localTasksCounter" value="12" />
+    <task id="LOCAL-00012" summary="работает кнопка обзора главной игры">
+      <option name="closed" value="true" />
+      <created>1746673757808</created>
+      <option name="number" value="00012" />
+      <option name="presentableId" value="LOCAL-00012" />
+      <option name="project" value="LOCAL" />
+      <updated>1746673757808</updated>
+    </task>
+    <task id="LOCAL-00013" summary="изменения в шаблонах">
+      <option name="closed" value="true" />
+      <created>1746841086764</created>
+      <option name="number" value="00013" />
+      <option name="presentableId" value="LOCAL-00013" />
+      <option name="project" value="LOCAL" />
+      <updated>1746841086764</updated>
+    </task>
+    <option name="localTasksCounter" value="14" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -311,6 +326,8 @@
     <MESSAGE value="обработчик карточек игр" />
     <MESSAGE value="при нажатии на кнопку обзор открывается уникальная страница по id" />
     <MESSAGE value="починена база данных(удалена промежуточная и восстановлена старая)" />
-    <option name="LAST_COMMIT_MESSAGE" value="починена база данных(удалена промежуточная и восстановлена старая)" />
+    <MESSAGE value="работает кнопка обзора главной игры" />
+    <MESSAGE value="изменения в шаблонах" />
+    <option name="LAST_COMMIT_MESSAGE" value="изменения в шаблонах" />
   </component>
 </project>

@@ -5,7 +5,7 @@ from wtforms.validators import DataRequired
 
 
 class RedactForm(FlaskForm):
-    avatar = FileField('аватар')
+    avatar = FileField('изменить аватар')
     name = StringField('Имя пользователя')
     about = TextAreaField("о себе")
-    submit = SubmitField('изменить')
+    submit = SubmitField('Сохранить изменения')
