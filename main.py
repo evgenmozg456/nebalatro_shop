@@ -61,6 +61,7 @@ def game_card(game_id):
         abort(404)
     steam_data = None
     error = None
+    video = None
 
     if game.steam_id:
         try:
@@ -69,11 +70,14 @@ def game_card(game_id):
                 headers={'Accept': 'application/json'}
             )
             data = response.json()
+            video = data[str(game.steam_id)]['data']['movies'][0]['webm']['480']
 
             if data and data.get(str(game.steam_id), {}).get('success'):
                 steam_data = data[str(game.steam_id)]['data']
             else:
                 error = "Данные игры не найдены в Steam"
+
+
         except Exception as e:
             error = f"Ошибка при загрузке данных из Steam: {str(e)}"
 
@@ -81,7 +85,8 @@ def game_card(game_id):
         'game_card.html',
         game=game,
         steam_data=steam_data,
-        error=error
+        error=error,
+        video=video
     )
 
 
@@ -150,12 +155,8 @@ def logout():
     return redirect("/")
 
 
-counter = 0
-
-
 @app.route('/comments_list/<int:game_id>', methods=['GET', 'POST'])
 def comments_list(game_id):
-    global counter
     if request.method == 'POST' and current_user.is_authenticated:
 
         if 'like' in request.form:
@@ -181,8 +182,6 @@ def comments_list(game_id):
                 likes.liked_id = ' '.join(new_id_list)
                 likes.like_count = likes.like_count - 1
                 db_sess.commit()
-
-            counter += 1
 
     db_sess = db_session.create_session()
     comments = db_sess.query(Comment).filter(Comment.reply_id == 0).filter(Comment.game_id == game_id).all()
@@ -248,24 +247,48 @@ def get_comment_rec(db_sess, id_parent, level=0):
 
 @app.route('/comment/<int:reply_id>/<int:game_id>', methods=['GET', 'POST'])
 def comment(reply_id, game_id):
-    form = CommentForm()
-    if form.validate_on_submit():
+    if current_user.is_authenticated:
+        form = CommentForm()
+        if form.validate_on_submit():
+            db_sess = db_session.create_session()
+            cur_user = flask_login.current_user
+            user_name = db_sess.query(User).filter(User.name == cur_user.name).first()
+            com = Comment()
+            com.text = request.form.get('text')
+            com.user_id = user_name.id
+            com.game_id = game_id
+            com.reply_id = reply_id
+            db_sess = db_session.create_session()
+            db_sess.add(com)
+            db_sess.commit()
+            return redirect(f'/comments_list/{game_id}')
         db_sess = db_session.create_session()
-        cur_user = flask_login.current_user
-        user_name = db_sess.query(User).filter(User.name == cur_user.name).first()
-        com = Comment()
-        com.text = request.form.get('text')
-        com.user_id = user_name.id
-        com.game_id = game_id
-        com.reply_id = reply_id
-        db_sess = db_session.create_session()
-        db_sess.add(com)
-        db_sess.commit()
+        game_name = db_sess.query(Game).filter(Game.id == game_id).first()
+        return render_template('LeaveComment.html', title='Комментарий', form=form, reply_id=reply_id, game_id=game_id,
+                               game_name=game_name.name)
+    else:
         return redirect(f'/comments_list/{game_id}')
-    db_sess = db_session.create_session()
-    game_name = db_sess.query(Game).filter(Game.id == game_id).first()
-    return render_template('LeaveComment.html', title='Комментарий', form=form, reply_id=reply_id, game_id=game_id,
-                           game_name=game_name.name)
+
+
+@app.route('/my_coms', methods=['GET', 'POST'])
+def my_coms():
+    if current_user.is_authenticated:
+        cur_user = flask_login.current_user
+        db_sess = db_session.create_session()
+        coms = db_sess.query(Comment).filter(Comment.user_id == cur_user.id).all()
+
+        user_coms = []
+        for i in coms:
+            liked = str(i.liked_id)
+            if str(cur_user.id) in liked.split(' '):
+                com_liked = True
+            else:
+                com_liked = False
+            user_name = db_sess.query(User).filter(User.id == i.user_id).first()
+            game_name = db_sess.query(Game).filter(Game.id == i.game_id).first()
+            user_coms.append([i.id, i.text, user_name.name, i.data, i.reply_id, i.game_id, 0,
+                              i.user_id, i.like_count, com_liked, game_name.name])
+        return render_template('my_coms.html', title='Мои комментарии', form=user_coms)
 
 
 @app.route('/profile_redact', methods=['GET', 'POST'])
