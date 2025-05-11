@@ -10,7 +10,7 @@ from data.game import Game
 from forms.finder_form import FindForm
 from forms.loginform import LoginForm
 from forms.redact_form import RedactForm
-from forms.user_form import RegisterForm
+from forms.register_form import RegisterForm
 from forms.comment_form import CommentForm
 from flask_wtf.csrf import CSRFProtect
 from flask_login import LoginManager, login_user, logout_user, login_required, current_user
@@ -29,6 +29,7 @@ def load_user(user_id):
     return db_sess.query(User).get(user_id)
 
 
+# домашняя страница
 @app.route('/', methods=['GET', 'POST'])
 def home():
     form = FindForm()
@@ -38,11 +39,17 @@ def home():
     return render_template('home.html', form=form)
 
 
+# Секретная, пасхальная страница. Она будет доступна только пользователям с "timatun" в нике
 @app.route('/kick_timatun')
 def kick_timatun():
-    return render_template('kick_timatun.html')
+    if current_user.is_authenticated:
+        cur_user = flask_login.current_user
+        if 'timatun' in cur_user.name:
+            return render_template('kick_timatun.html')
+    return abort(404)
 
 
+# карточка игры
 @app.route('/game/<game_id>')
 def game_card(game_id: int):
     db_sess = db_session.create_session()
@@ -80,16 +87,13 @@ def game_card(game_id: int):
     )
 
 
-@app.route('/signin')
-def sign_in():
-    return render_template('login.html')
-
-
+# страница "о нас"
 @app.route('/about')
 def about_us():
     return render_template('about_us.html')
 
 
+# авторизация
 @app.route('/login', methods=['GET', 'POST'])
 def login():
     form = LoginForm()
@@ -105,6 +109,7 @@ def login():
     return render_template('login.html', title='Авторизация', form=form)
 
 
+# регистрация
 @app.route('/register', methods=['GET', 'POST'])
 def reqister():
     form = RegisterForm()
@@ -130,6 +135,8 @@ def reqister():
     return render_template('register.html', title='Регистрация', form=form)
 
 
+
+# профиль
 @app.route('/profile')
 def profile():
     cur_user = flask_login.current_user
@@ -139,13 +146,15 @@ def profile():
                                id=cur_user.id)
 
 
+# выход из аккаунта
 @app.route('/logout')
 @login_required
 def logout():
     logout_user()
     return redirect("/")
 
-# вывод списка комменатриев
+
+# вывод списка комментариев
 @app.route('/comments_list/<int:game_id>', methods=['GET', 'POST'])
 def comments_list(game_id: int):
     if request.method == 'POST' and current_user.is_authenticated:
@@ -177,7 +186,7 @@ def comments_list(game_id: int):
     comments = db_sess.query(Comment).filter(Comment.reply_id == 0).filter(Comment.game_id == game_id).all()
     coms = []
     for i in comments:
-        # проверка на аунтефикацию
+        # проверка на авторизацию
         if current_user.is_authenticated:
             cur_user = flask_login.current_user
             liked = str(i.liked_id)
@@ -214,15 +223,20 @@ def get_comment_rec(db_sess, id_parent, level=0):
                 com_liked = ''
             s = f"""
             <p>
-                <p style="margin-left: {50 * level}px; border:5px; border-style:inset; border-color:pink; padding: 1em; border-radius: 30px;">
+                <p style="margin-left: {50 * level}px; border:5px; border-style:inset; border-color:pink; padding: 1em; 
+                border-radius: 30px;">
                 Имя пользователя: {user_name.name}<br>
                 Комментарий: {i.text}<br>
                 Дата отправки: {i.data.strftime('%d.%m.%Y %H:%M')}<br>
                 <a class="nav-button" href="/comment/{i.id}/{i.game_id}">Ответить</a>
                 <div class="like-wrapper">
-                    <button type="submit" class="like-btn {com_liked}" value = "{i.id}" name="like" style="margin-left: {50 * level}px;">
+                    <button type="submit" class="like-btn {com_liked}" value = "{i.id}" name="like" style="margin-left: 
+                        {50 * level}px;">
                         <svg class="like-icon" viewBox="0 0 24 24">
-                            <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/>
+                            <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 
+                            4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-
+                            8.55 11.54L12 21.35z"
+                            />
                         </svg>
                         {i.like_count}
                     </button>
@@ -238,10 +252,11 @@ def get_comment_rec(db_sess, id_parent, level=0):
             # get_comment_rec(session, i.id, level+1)])
         return coms
 
+
 # оставить свой комментарий
 @app.route('/comment/<int:reply_id>/<int:game_id>', methods=['GET', 'POST'])
 def comment(reply_id, game_id: int):
-    # проверка на аунтефикацию
+    # проверка на авторизацию
     if current_user.is_authenticated:
         form = CommentForm()
         if form.validate_on_submit():
@@ -265,6 +280,7 @@ def comment(reply_id, game_id: int):
         return redirect(f'/comments_list/{game_id}')
 
 
+# просмотр своих комментариев
 @app.route('/my_coms', methods=['GET', 'POST'])
 def my_coms():
     if current_user.is_authenticated:
@@ -288,6 +304,7 @@ def my_coms():
         return redirect('/')
 
 
+# редактирование профиля
 @app.route('/profile_redact', methods=['GET', 'POST'])
 def profile_redact():
     form = RedactForm()
@@ -307,7 +324,6 @@ def profile_redact():
 
 
 # так называемый поиск
-
 @app.route('/game', methods=['GET', 'POST'])
 def search():
     try:
@@ -343,6 +359,7 @@ def search():
                                error=f"Произошла ошибка при поиске: {str(e)}")
 
 
+# главная функция
 def main():
     db_session.global_init("db/nebalatro.db")
     port = int(os.environ.get("PORT", 5000))
