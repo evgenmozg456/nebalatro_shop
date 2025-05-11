@@ -3,6 +3,7 @@ import sqlalchemy
 from data.db_session import SqlAlchemyBase
 from sqlalchemy_serializer import *
 
+
 # создание модели
 class Comment(SqlAlchemyBase, SerializerMixin):
     __tablename__ = 'comments'
@@ -17,4 +18,3 @@ class Comment(SqlAlchemyBase, SerializerMixin):
                              default=datetime.datetime.now().date())
     like_count = sqlalchemy.Column(sqlalchemy.Integer, nullable=True, default=0)
     liked_id = sqlalchemy.Column(sqlalchemy.String, nullable=True, default='')
-
