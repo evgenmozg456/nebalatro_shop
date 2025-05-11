@@ -1,9 +1,7 @@
 import os
 
 import flask_login
-from flask import Flask, render_template, request, redirect, abort, jsonify, url_for
-from werkzeug.datastructures import FileStorage
-from werkzeug.utils import secure_filename
+from flask import Flask, render_template, request, redirect, abort
 import requests
 from data import db_session
 from data.comments import Comment
@@ -19,7 +17,7 @@ from flask_login import LoginManager, login_user, logout_user, login_required, c
 
 app = Flask(__name__)
 app.config['SECRET_KEY'] = 'yandexlyceum_secret_key'
-app.config['UPLOAD_FOLDER'] = 'static'
+app.config['UPLOAD_FOLDER'] = 'static/avatars'
 csrf = CSRFProtect(app)
 login_manager = LoginManager()
 login_manager.init_app(app)
@@ -35,15 +33,7 @@ def load_user(user_id):
 def home():
     form = FindForm()
     if request.method == 'POST':
-        # if 'button_reg' in request.form:
-        #     return redirect('/registration_test')
-        # elif 'button_sign' in request.form:
-        #     return redirect('/login')
-        # elif 'button_about' in request.form:
-        #     return redirect('/about')
         if 'find' in request.form:
-            game_name = request.form['game_name']
-            # print(game_name)
             return redirect('/game')
     return render_template('home.html', form=form)
 
@@ -54,7 +44,7 @@ def kick_timatun():
 
 
 @app.route('/game/<game_id>')
-def game_card(game_id):
+def game_card(game_id: int):
     db_sess = db_session.create_session()
     game = db_sess.query(Game).filter(Game.id == game_id).first()
     if not game:
@@ -145,7 +135,8 @@ def profile():
     cur_user = flask_login.current_user
     if current_user.is_authenticated:
         return render_template('profile.html',
-                               created_date=cur_user.created_date, name=cur_user.name, about=cur_user.about)
+                               created_date=cur_user.created_date, name=cur_user.name, about=cur_user.about,
+                               id=cur_user.id)
 
 
 @app.route('/logout')
@@ -156,7 +147,7 @@ def logout():
 
 
 @app.route('/comments_list/<int:game_id>', methods=['GET', 'POST'])
-def comments_list(game_id):
+def comments_list(game_id: int):
     if request.method == 'POST' and current_user.is_authenticated:
 
         if 'like' in request.form:
@@ -165,7 +156,6 @@ def comments_list(game_id):
             db_sess = db_session.create_session()
             likes = db_sess.query(Comment).filter(Comment.id == button_value).first()
             cur_user = flask_login.current_user
-            # user = db_sess.query(User).filter(User.name == cur_user.name).first()
             liked = str(likes.liked_id)
 
             if str(cur_user.id) not in liked.split(' '):
@@ -223,10 +213,10 @@ def get_comment_rec(db_sess, id_parent, level=0):
             s = f"""
             <p>
                 <p style="margin-left: {50 * level}px; border:5px; border-style:inset; border-color:pink; padding: 1em; border-radius: 30px;">
-                Имя пользователя:{user_name.name}<br>
-                Комментарий:{i.text}<br>
-                Дата отправки:{i.data}<br>
-                <a class="nav-button" href="/comment/{i.id}/{i.game_id}/{i.user_id}">Ответить</a>
+                Имя пользователя: {user_name.name}<br>
+                Комментарий: {i.text}<br>
+                Дата отправки: {i.data.strftime('%d.%m.%Y %H:%M')}<br>
+                <a class="nav-button" href="/comment/{i.id}/{i.game_id}">Ответить</a>
                 <div class="like-wrapper">
                     <button type="submit" class="like-btn {com_liked}" value = "{i.id}" name="like" style="margin-left: {50 * level}px;">
                         <svg class="like-icon" viewBox="0 0 24 24">
@@ -241,12 +231,13 @@ def get_comment_rec(db_sess, id_parent, level=0):
             coms += s
             if i.reply_id != 0:
                 coms += get_comment_rec(db_sess, i.id, level + 1)
-            # coms.append([i.id, i.text, user_name.name, i.data, i.reply_id, i.game_id, level+1, get_comment_rec(session, i.id, level+1)])
+            # coms.append([i.id, i.text, user_name.name, i.data, i.reply_id, i.game_id, level+1, 
+            # get_comment_rec(session, i.id, level+1)])
         return coms
 
 
 @app.route('/comment/<int:reply_id>/<int:game_id>', methods=['GET', 'POST'])
-def comment(reply_id, game_id):
+def comment(reply_id, game_id: int):
     if current_user.is_authenticated:
         form = CommentForm()
         if form.validate_on_submit():
@@ -289,6 +280,8 @@ def my_coms():
             user_coms.append([i.id, i.text, user_name.name, i.data, i.reply_id, i.game_id, 0,
                               i.user_id, i.like_count, com_liked, game_name.name])
         return render_template('my_coms.html', title='Мои комментарии', form=user_coms)
+    else:
+        return redirect('/')
 
 
 @app.route('/profile_redact', methods=['GET', 'POST'])
@@ -297,17 +290,16 @@ def profile_redact():
     cur_user = flask_login.current_user
     db_sess = db_session.create_session()
     if form.validate_on_submit():
-
         user = db_sess.query(User).filter(User.id == cur_user.id).first()
-
         if user:
             file_path = os.path.join(app.config['UPLOAD_FOLDER'], str(user.id) + ".jpg")
-            form.avatar.data.save(file_path)
+            if form.avatar.data:
+                form.avatar.data.save(file_path)
             user.name = form.name.data
             user.about = form.about.data
             db_sess.commit()
             return redirect("/profile")
-    return render_template('redact.html', title='Регистрация', form=form)
+    return render_template('redact.html', title='Регистрация', form=form, id=cur_user.id)
 
 
 # так называемый поиск
@@ -349,7 +341,8 @@ def search():
 
 def main():
     db_session.global_init("db/nebalatro.db")
-    app.run(debug=True)
+    port = int(os.environ.get("PORT", 5000))
+    app.run(host='0.0.0.0', port=port)
 
 
 if __name__ == '__main__':

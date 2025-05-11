@@ -357,7 +357,6 @@
 
         /* Иконка карандаша (опционально) */
         .edit-profile-btn::after {
-            content: '✎';
             margin-left: 8px;
             font-size: 1rem;
         }
@@ -379,7 +378,7 @@
             </div>
 
             <div class="profile-card">
-                <img src="static/avatar_default.jpg" alt="static/avatar_default.jpg" class="profile-avatar">
+                <img src="static/avatars/{{id}}.jpg" class="profile-avatar">
                 <h2 class="profile-username">{{name}}</h2>
                 <div class="profile-date">{{created_date}}</div>
 
@@ -388,28 +387,30 @@
                     <p>{{about}}</p>
                 </div>
 
-                <div class="profile-stats">
-                    <div class="stat-item">
-                        <div class="stat-number">1,250</div>
-                        <div class="stat-label">Очков</div>
-                    </div>
-                    <div class="stat-item">
-                        <div class="stat-number">87</div>
-                        <div class="stat-label">Игр</div>
-                    </div>
-                    <div class="stat-item">
-                        <div class="stat-number">24</div>
-                        <div class="stat-label">Победы</div>
-                    </div>
-                </div>
+<!--                <div class="profile-stats">-->
+<!--                    <div class="stat-item">-->
+<!--                        <div class="stat-number">1,250</div>-->
+<!--                        <div class="stat-label">Очков</div>-->
+<!--                    </div>-->
+<!--                    <div class="stat-item">-->
+<!--                        <div class="stat-number">87</div>-->
+<!--                        <div class="stat-label">Игр</div>-->
+<!--                    </div>-->
+<!--                    <div class="stat-item">-->
+<!--                        <div class="stat-number">24</div>-->
+<!--                        <div class="stat-label">Победы</div>-->
+<!--                    </div>-->
+<!--                </div>-->
 
                 <a class="edit-profile-btn" href="/profile_redact">Редактировать профиль</a>
+                <a class="edit-profile-btn" href="/my_coms">Читать мои комментарии</a>
             </div>
+
         </main>
 
         <footer>
-            <p>© 2023 NEBALATRO. Все права защищены.</p>
-            <p>Погрузитесь в мир азартных приключений</p>
+            <p>© 2025 NEBALATRO. Все права защищены.</p>
+            <p>Погрузитесь в мир игр</p>
         </footer>
     </div>
 </body>

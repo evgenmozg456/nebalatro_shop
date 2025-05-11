@@ -1,3 +1,4 @@
+# тестовый файл
 import atexit
 import requests
 import time
