@@ -145,11 +145,11 @@ def logout():
     logout_user()
     return redirect("/")
 
-
+# вывод списка комменатриев
 @app.route('/comments_list/<int:game_id>', methods=['GET', 'POST'])
 def comments_list(game_id: int):
     if request.method == 'POST' and current_user.is_authenticated:
-
+        # Проверка лайка от пользователя
         if 'like' in request.form:
             button_value = request.form.get('like')
 
@@ -177,6 +177,7 @@ def comments_list(game_id: int):
     comments = db_sess.query(Comment).filter(Comment.reply_id == 0).filter(Comment.game_id == game_id).all()
     coms = []
     for i in comments:
+        # проверка на аунтефикацию
         if current_user.is_authenticated:
             cur_user = flask_login.current_user
             liked = str(i.liked_id)
@@ -199,6 +200,7 @@ def get_comment_rec(db_sess, id_parent, level=0):
         return ''
     else:
         coms = ''
+        # создание вложенных комментариев
         for i in comments:
             user_name = db_sess.query(User).filter(User.id == i.user_id).first()
             if current_user.is_authenticated:
@@ -229,15 +231,17 @@ def get_comment_rec(db_sess, id_parent, level=0):
             </p>
             """
             coms += s
+            # если на комментарий вложенных есть ответ, значит опять вызываем эту функцию
             if i.reply_id != 0:
                 coms += get_comment_rec(db_sess, i.id, level + 1)
             # coms.append([i.id, i.text, user_name.name, i.data, i.reply_id, i.game_id, level+1, 
             # get_comment_rec(session, i.id, level+1)])
         return coms
 
-
+# оставить свой комментарий
 @app.route('/comment/<int:reply_id>/<int:game_id>', methods=['GET', 'POST'])
 def comment(reply_id, game_id: int):
+    # проверка на аунтефикацию
     if current_user.is_authenticated:
         form = CommentForm()
         if form.validate_on_submit():
